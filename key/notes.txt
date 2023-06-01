@@ -1,4 +1,0 @@
-  keytool -genkey -v -keystore F:\flutter_project\llaves\robot\upload-keystore.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias aliasrobot
-
-alias: aliasrobot
-pass: aliasrobot
