@@ -108,7 +108,19 @@ class _HomeScrennState extends State<HomeScrenn> {
                         fontFamily: 'Silkscreen')),
               ),
               const SizedBox(
-                height: 20,
+                height: 50,
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Text(
+                    "Recuerde configurar en su teléfono el tiempo ativo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse.",
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontFamily: 'Silkscreen')),
+              ),
+              const SizedBox(
+                height: 50,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -119,7 +131,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     Column(
                       children: [
                         const Text(
-                          '5 minuto',
+                          '5 minutos',
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Silkscreen',
@@ -152,7 +164,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => ColorsScreen(
-                                          SecondsTimer: 30021,
+                                          SecondsTimer: 300,
                                         )),
                               );
                             }),

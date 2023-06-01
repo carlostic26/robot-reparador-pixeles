@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:robotreparadorpixeles/screens/home_screen.dart';
@@ -12,8 +11,6 @@ class ColorsScreen extends StatefulWidget {
   ColorsScreen({required this.SecondsTimer, super.key});
 
   late int SecondsTimer;
-
-  //pedira por argumento el tiempo segun el boton de portal
 
   @override
   State<ColorsScreen> createState() => _ColorsScreenState();
@@ -54,14 +51,27 @@ class _ColorsScreenState extends State<ColorsScreen> {
 
   @override
   void initState() {
+    super.initState();
     var color =
         Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-
-    super.initState();
-
     changerColor();
-
     goBackHome();
+    timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
+      changerColor();
+    });
+  }
+
+  @override
+  void dispose() {
+    timer.cancel(); // Cancela el timer antes de descartar el estado
+    super.dispose();
+  }
+
+  void changerColor() {
+    setState(() {
+      color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+          .withOpacity(1.0);
+    });
   }
 
   @override
@@ -74,10 +84,28 @@ class _ColorsScreenState extends State<ColorsScreen> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: changerColor(),
+        backgroundColor: color,
+
+        appBar: AppBar(
+          backgroundColor: Colors.transparent, // Fondo transparente
+          elevation: 0, // Sin sombra
+          toolbarHeight: 700, // Altura personalizada
+          iconTheme: const IconThemeData(
+              color: Colors.transparent), // Color de ícono transparente
+
+          title: const Align(
+            alignment: Alignment.center,
+            child: Text(
+              'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
+              style: TextStyle(color: Colors.white, fontSize: 12),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+
         //ad banner bottom screen
         bottomNavigationBar: Container(
-          color: Color.fromARGB(0, 72, 71, 71),
+          color: const Color.fromARGB(0, 72, 71, 71),
           //height: 60,
           child: Center(
             child: Column(
@@ -100,7 +128,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
     );
   }
 
-  changerColor() {
+/*   changerColor() {
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
@@ -109,7 +137,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
     });
 
     return color;
-  }
+  } */
 
   goBackHome() {
     Future.delayed(Duration(seconds: widget.SecondsTimer), () {
@@ -204,12 +232,15 @@ class _ColorsScreenState extends State<ColorsScreen> {
                       height: 10,
                     ),
                     Center(
-                      child: Text(
-                        'El robot reparador de pixeles ha mejorado el desempeño. \nPrueba tu pantalla y vuelve a aumentar el tiempo si no estás satisfecho.',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12.0,
-                            fontFamily: 'Silkscreen'),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 50, 0),
+                        child: Text(
+                          'El robot reparador de pixeles ha mejorado el desempeño. \n\nPrueba tu pantalla y vuelve a aumentar el tiempo si no estás satisfecho.',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.0,
+                              fontFamily: 'Silkscreen'),
+                        ),
                       ),
                     ),
                   ]),

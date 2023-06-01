@@ -129,6 +129,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: 50),
               Center(
                 child: Container(
                   height: 250,
@@ -183,7 +184,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         fontFamily: 'Silkscreen'),
                   ),
                   onPressed: () {
-                    showDialogVerAd(context);
+                    //showDialogVerAd(context);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const HomeScrenn()));
                   }),
             ],
           ),

@@ -10,12 +10,22 @@ class LoadingScreen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _LoadingScreenState extends State<LoadingScreen> {
+  bool _isFirstBuild = true;
+  bool? contadorFinalizado = false;
+  bool isButtonVisible =
+      false; // Nuevo estado para controlar la visibilidad del botón
+  bool _buttonEnabled = false;
+
   @override
   // ignore: must_call_super
   void initState() {
-    //despues de 7 segundos se cambia de pantalla
-    Future.delayed(const Duration(seconds: 5), () {
-      isLoaded();
+    //despues de 9 segundos se habilita boton
+    Future.delayed(const Duration(seconds: 9), () {
+      _isFirstBuild =
+          false; // Establecer en false después de la primera construcción
+      setState(() {
+        _buttonEnabled = true;
+      });
     });
   }
 
@@ -55,7 +65,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     lineHeight: 15,
                     percent: 100 / 100,
                     animation: true,
-                    animationDuration: 5000, //7 sec to load bar
+                    animationDuration: 9000, //7 sec to load bar
 
                     progressColor: Colors.green,
                   ),
@@ -74,6 +84,36 @@ class _LoadingScreenState extends State<LoadingScreen> {
                         //fontWeight: FontWeight.bold,
                         color: Colors.white)),
               ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
+                child: TextButton(
+                  onPressed: _buttonEnabled
+                      ? () async {
+                          isLoaded();
+                        }
+                      : null, // Desactiva el botón si no está habilitado
+                  style: ButtonStyle(
+                    backgroundColor: _buttonEnabled
+                        ? MaterialStateProperty.all<Color>(Colors
+                            .green) // Color de fondo cuando está habilitado
+                        : MaterialStateProperty.all<Color>(Colors
+                            .grey), // Color de fondo cuando está deshabilitado
+                  ),
+
+                  child: Text(
+                    'Continuar',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: _buttonEnabled ? Colors.white : Colors.blueGrey),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
