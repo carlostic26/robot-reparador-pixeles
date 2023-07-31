@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:robotreparadorpixeles/ads.dart';
 import 'package:robotreparadorpixeles/screens/home_screen.dart';
 
 final Random randProgress = Random();
@@ -19,45 +20,74 @@ class ColorsScreen extends StatefulWidget {
 class _ColorsScreenState extends State<ColorsScreen> {
   late Timer timer;
   var color;
+  bool _showText = true;
 
   //ads
-  BannerAd? bannerAd;
-  bool isLoaded = false;
+  BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    _loadAdaptativeAd();
+  }
 
-    bannerAd = BannerAd(
-      size: AdSize.banner,
-      //test: ca-app-pub-3940256099942544/6300978111 || Real: ca-app-pub-4336409771912215/9135934709
+  Future<void> _loadAdaptativeAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+        await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            MediaQuery.of(context).size.width.truncate());
 
-      adUnitId: "ca-app-pub-4336409771912215/9135934709",
-      listener: BannerAdListener(onAdLoaded: (ad) {
-        setState(() {
-          isLoaded = true;
-        });
-        print('Banner ad loaded');
-      }, onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        print('ad failed to load ${error.message}');
-      }),
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    Ads ads = Ads();
+
+    _anchoredAdaptiveAd = BannerAd(
+      adUnitId: ads.banner,
+      size: size,
       request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
     );
-
-    bannerAd!.load();
+    return _anchoredAdaptiveAd!.load();
   }
 
   @override
   void initState() {
     super.initState();
+    _loadAdaptativeAd();
+
     var color =
         Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
     changerColor();
+
     goBackHome();
+
     timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
       changerColor();
+    });
+
+    // Configurar el timer para ocultar el texto después de 1 minuto
+    Timer(const Duration(minutes: 1), () {
+      setState(() {
+        _showText = false;
+      });
     });
   }
 
@@ -93,37 +123,33 @@ class _ColorsScreenState extends State<ColorsScreen> {
           iconTheme: const IconThemeData(
               color: Colors.transparent), // Color de ícono transparente
 
-          title: const Align(
-            alignment: Alignment.center,
-            child: Text(
-              'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
-              style: TextStyle(color: Colors.white, fontSize: 12),
-              textAlign: TextAlign.center,
-            ),
-          ),
+          title: _showText
+              ? const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              : Container(), // Muestra un contenedor vacío cuando _showText es falso
         ),
 
-        //ad banner bottom screen
-        bottomNavigationBar: Container(
-          color: const Color.fromARGB(0, 72, 71, 71),
-          //height: 60,
-          child: Center(
-            child: Column(
-              children: [
-                isLoaded
-                    ? Container(
-                        width: bannerAd!.size.width.toDouble(),
-                        height: bannerAd!.size.height.toDouble(),
-                        alignment: Alignment.bottomCenter,
-                        child: AdWidget(
-                          ad: bannerAd!,
-                        ),
-                      )
-                    : const SizedBox()
-              ],
-            ),
-          ),
-        ),
+        //adaptative banner bottom screen
+        bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
+            ? Container(
+                color: const Color.fromARGB(0, 55, 77, 56),
+                width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                child: AdWidget(ad: _anchoredAdaptiveAd!),
+              )
+            : Container(
+                color: const Color.fromARGB(
+                    0, 55, 77, 56), // Aquí se establece el color del Container
+                width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                child: AdWidget(ad: _anchoredAdaptiveAd!),
+              ),
       ),
     );
   }

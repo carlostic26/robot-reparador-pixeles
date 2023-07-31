@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:robotreparadorpixeles/ads.dart';
 import 'package:robotreparadorpixeles/screens/colors_screen.dart';
 import 'package:robotreparadorpixeles/screens/welcome_screen.dart';
 import 'package:share_plus/share_plus.dart';
@@ -15,32 +16,50 @@ const int maxAttempts = 3;
 
 class _HomeScrennState extends State<HomeScrenn> {
   //ads
-  BannerAd? bannerAd;
-  bool isLoaded = false;
+  BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
+    _loadAdaptativeAd();
+  }
 
-    bannerAd = BannerAd(
-      size: AdSize.banner,
-      //test: ca-app-pub-3940256099942544/6300978111 || Real: ca-app-pub-4336409771912215/9135934709
+  Future<void> _loadAdaptativeAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+        await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            MediaQuery.of(context).size.width.truncate());
 
-      adUnitId: "ca-app-pub-4336409771912215/9135934709",
-      listener: BannerAdListener(onAdLoaded: (ad) {
-        setState(() {
-          isLoaded = true;
-        });
-        print('Banner ad loaded');
-      }, onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        print('ad failed to load ${error.message}');
-      }),
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    Ads ads = Ads();
+
+    _anchoredAdaptiveAd = BannerAd(
+      // TODO: replace these test ad units with your own ad unit.
+      adUnitId: ads.banner,
+      size: size,
       request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
     );
-
-    bannerAd!.load();
+    return _anchoredAdaptiveAd!.load();
   }
 
   @override
@@ -89,7 +108,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                 ),
               ),
               const Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 1),
+                padding: EdgeInsets.fromLTRB(10, 30, 10, 1),
                 child: Center(
                   child: Text("Repara: ",
                       style: TextStyle(
@@ -108,10 +127,10 @@ class _HomeScrennState extends State<HomeScrenn> {
                         fontFamily: 'Silkscreen')),
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               const Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: Text(
                     "Recuerde configurar en su teléfono el tiempo ativo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse.",
                     style: TextStyle(
@@ -137,37 +156,21 @@ class _HomeScrennState extends State<HomeScrenn> {
                               fontFamily: 'Silkscreen',
                               fontSize: 10),
                         ),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 300,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 300,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -180,38 +183,21 @@ class _HomeScrennState extends State<HomeScrenn> {
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
                                 fontSize: 10)),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                //enviar a shared prferences el tiempo a reparar
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 600,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 600,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -224,44 +210,28 @@ class _HomeScrennState extends State<HomeScrenn> {
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
                                 fontSize: 10)),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 1800,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 1800,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -279,41 +249,25 @@ class _HomeScrennState extends State<HomeScrenn> {
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
                                 fontSize: 10)),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 3600,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 3600,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 15,
                     ),
                     Column(
                       children: [
@@ -322,37 +276,21 @@ class _HomeScrennState extends State<HomeScrenn> {
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
                                 fontSize: 10)),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 10800,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 10800,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -365,37 +303,21 @@ class _HomeScrennState extends State<HomeScrenn> {
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
                                 fontSize: 10)),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  const MaterialStatePropertyAll<Color>(
-                                      Colors.green),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                    color: Color.fromARGB(255, 20, 76, 22),
-                                    width: 5.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Reparar 🛠️',
-                              style: TextStyle(
-                                  fontFamily: 'Silkscreen',
-                                  fontSize: 12,
-                                  color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => ColorsScreen(
-                                          SecondsTimer: 18000,
-                                        )),
-                              );
-                            }),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.build_circle,
+                            color: Colors.green,
+                            size: 40,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => ColorsScreen(
+                                        SecondsTimer: 18000,
+                                      )),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -405,26 +327,21 @@ class _HomeScrennState extends State<HomeScrenn> {
           ),
         ),
 
-        //ad banner bottom screen
-        bottomNavigationBar: Container(
-          height: 60,
-          child: Center(
-            child: Column(
-              children: [
-                isLoaded
-                    ? Container(
-                        width: bannerAd!.size.width.toDouble(),
-                        height: bannerAd!.size.height.toDouble(),
-                        alignment: Alignment.bottomCenter,
-                        child: AdWidget(
-                          ad: bannerAd!,
-                        ),
-                      )
-                    : const SizedBox()
-              ],
-            ),
-          ),
-        ),
+        //adaptative banner bottom screen
+        bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
+            ? Container(
+                color: const Color.fromARGB(0, 55, 77, 56),
+                width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                child: AdWidget(ad: _anchoredAdaptiveAd!),
+              )
+            : Container(
+                color: const Color.fromARGB(
+                    0, 55, 77, 56), // Aquí se establece el color del Container
+                width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                child: AdWidget(ad: _anchoredAdaptiveAd!),
+              ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:robotreparadorpixeles/ads.dart';
 import 'package:robotreparadorpixeles/screens/loading_screen.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,9 +9,10 @@ AppOpenAd? openAd;
 bool isAdLoaded = false;
 
 Future<void> loadAd() async {
+  Ads ads = Ads();
+
   await AppOpenAd.load(
-      adUnitId: // test: ca-app-pub-3940256099942544/3419835294 || real: ca-app-pub-4336409771912215/2462715149
-          'ca-app-pub-4336409771912215/2462715149',
+      adUnitId: ads.openAd,
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(onAdLoaded: (ad) {
         print("ad is loaded ok");
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Robor reparador',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

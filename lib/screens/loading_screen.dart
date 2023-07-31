@@ -32,9 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //no color backg cuz the backg is an image
       backgroundColor: Colors.grey[850],
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +64,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     percent: 100 / 100,
                     animation: true,
                     animationDuration: 9000, //7 sec to load bar
-
                     progressColor: Colors.green,
                   ),
                 ],
