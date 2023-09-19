@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/screens/colors_screen.dart';
+import 'package:robotreparadorpixeles/ads/ads.dart';
 import 'package:robotreparadorpixeles/screens/home_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -23,13 +24,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   InterstitialAd? interstitialAd;
   int interstitialAttempts = 0;
 
+  Ads ads = Ads();
+
   //Creating interstitial
   //used for the moment
   void createInterstitialAd() {
     InterstitialAd.load(
-        // ignore: deprecated_member_use
-        //Test Intersticial: ca-app-pub-3940256099942544/1033173712 || Real: ca-app-pub-4336409771912215/9135934709
-        adUnitId: 'ca-app-pub-4336409771912215/9135934709',
+        adUnitId: ads.intersticial,
         request: request,
         adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
           interstitialAd = ad;
@@ -134,8 +135,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Container(
                   height: 250,
                   width: 350.0,
-                  child: Image.network(
-                    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQPf4exY3SR7fo7OeULIVgbSAJnWQ0aVbSCsre0LZzzdCYjT1R0xtto8fuF2C1haXsLe9zVZ5T7FVyU6WH2MRU4Bj41bR-xxKKwi55x_uJ2HA4aBq4lH4qM0o51y1R0dPPIciEiQgeqXVFDYN0NyC6ANUkvtFdUJhe42cOWdCZcuYQrt6meMqSTHQ/s320/banner%20logo%20app%20x500.png',
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQPf4exY3SR7fo7OeULIVgbSAJnWQ0aVbSCsre0LZzzdCYjT1R0xtto8fuF2C1haXsLe9zVZ5T7FVyU6WH2MRU4Bj41bR-xxKKwi55x_uJ2HA4aBq4lH4qM0o51y1R0dPPIciEiQgeqXVFDYN0NyC6ANUkvtFdUJhe42cOWdCZcuYQrt6meMqSTHQ/s320/banner%20logo%20app%20x500.png',
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -184,7 +186,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         fontFamily: 'Silkscreen'),
                   ),
                   onPressed: () {
-                    showDialogVerAd(context);
+                    //showDialogVerAd(context);
+
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (_) => const HomeScrenn()));
                   }),
@@ -254,11 +257,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
                         //interstitial ad
 
-                        //showInterstitialAd();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const HomeScrenn()));
+                        showInterstitialAd();
                       }),
                 ),
               ]);

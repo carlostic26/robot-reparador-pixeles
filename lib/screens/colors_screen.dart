@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/ads.dart';
+import 'package:robotreparadorpixeles/ads/ads.dart';
 import 'package:robotreparadorpixeles/screens/home_screen.dart';
 
 final Random randProgress = Random();
@@ -71,7 +71,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadAdaptativeAd();
+    //_loadAdaptativeAd();
 
     var color =
         Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
@@ -84,7 +84,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
     });
 
     // Configurar el timer para ocultar el texto después de 1 minuto
-    Timer(const Duration(minutes: 1), () {
+    Timer(const Duration(seconds: 15), () {
       setState(() {
         _showText = false;
       });
@@ -115,7 +115,6 @@ class _ColorsScreenState extends State<ColorsScreen> {
       },
       child: Scaffold(
         backgroundColor: color,
-
         appBar: AppBar(
           backgroundColor: Colors.transparent, // Fondo transparente
           elevation: 0, // Sin sombra
@@ -128,7 +127,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -144,11 +143,17 @@ class _ColorsScreenState extends State<ColorsScreen> {
                 child: AdWidget(ad: _anchoredAdaptiveAd!),
               )
             : Container(
-                color: const Color.fromARGB(
-                    0, 55, 77, 56), // Aquí se establece el color del Container
-                width: _anchoredAdaptiveAd!.size.width.toDouble(),
-                height: _anchoredAdaptiveAd!.size.height.toDouble(),
-                child: AdWidget(ad: _anchoredAdaptiveAd!),
+                color: const Color.fromARGB(0, 55, 77, 56),
+                width:
+                    320, // Establece un ancho predeterminado cuando el anuncio no está cargado
+                height:
+                    50, // Establece un alto predeterminado cuando el anuncio no está cargado
+                child: _isLoaded
+                    ? AdWidget(
+                        ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
+                    : const CircularProgressIndicator(
+                        color: Colors.transparent,
+                      ),
               ),
       ),
     );
@@ -248,7 +253,7 @@ class _ColorsScreenState extends State<ColorsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: const [
                     Text(
-                      "Listo!",
+                      "¡Listo!",
                       style: TextStyle(
                           color: Colors.green,
                           fontSize: 25.0,
@@ -259,9 +264,9 @@ class _ColorsScreenState extends State<ColorsScreen> {
                     ),
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 50, 0),
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
-                          'El robot reparador de pixeles ha mejorado el desempeño. \n\nPrueba tu pantalla y vuelve a aumentar el tiempo si no estás satisfecho.',
+                          'El robot reparador de pixeles ha mejorado el desempeño. \n\nPara mejores resultados se recomienda usar el reparador durante una semana con un tiempo mayor.\n\nPrueba tu pantalla y aumenta el tiempo de reparación en caso de ser necesario.',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,

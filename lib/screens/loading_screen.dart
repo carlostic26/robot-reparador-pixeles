@@ -1,36 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:robotreparadorpixeles/provider/riverpod.dart';
 import 'package:robotreparadorpixeles/screens/welcome_screen.dart';
 
-// ignore: camel_case_types
-class LoadingScreen extends StatefulWidget {
+class LoadingScreen extends ConsumerWidget {
   @override
-  _LoadingScreenState createState() => _LoadingScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final buttonEnabled = ref.watch(buttonEnabled_rp);
 
-// ignore: camel_case_types
-class _LoadingScreenState extends State<LoadingScreen> {
-  bool _isFirstBuild = true;
-  bool? contadorFinalizado = false;
-  bool isButtonVisible =
-      false; // Nuevo estado para controlar la visibilidad del botón
-  bool _buttonEnabled = false;
-
-  @override
-  // ignore: must_call_super
-  void initState() {
-    //despues de 9 segundos se habilita boton
-    Future.delayed(const Duration(seconds: 9), () {
-      _isFirstBuild =
-          false; // Establecer en false después de la primera construcción
-      setState(() {
-        _buttonEnabled = true;
-      });
+    // Inicializa el estado del botón después de un retraso
+    Future.delayed(const Duration(seconds: 7), () {
+      ref.read(buttonEnabled_rp.notifier).state =
+          true; // Habilita el botón después de 7 segundos
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: Center(
@@ -45,8 +30,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
               padding: const EdgeInsets.symmetric(
                 horizontal: 5,
               ),
-              child: Image.network(
-                'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHBfFRTy1XLSopVeA1w9cAjRICacYdQIosMTut7i9BpmKWi0_GU3x4urvCjF27uENJzW7Y_uopy6s557quBbvh9x4Cd6SwLlW28-Eyu7IvLGqe8x_DXotvRBj7D7EAOIXIHKBlBG96XO4VpY7oYHgxqmw66wS8FH6GTxg87owY5GaJ34UJHDWi2bw/s320/icon%20700x700.png',
+              child: CachedNetworkImage(
+                imageUrl:
+                    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHBfFRTy1XLSopVeA1w9cAjRICacYdQIosMTut7i9BpmKWi0_GU3x4urvCjF27uENJzW7Y_uopy6s557quBbvh9x4Cd6SwLlW28-Eyu7IvLGqe8x_DXotvRBj7D7EAOIXIHKBlBG96XO4VpY7oYHgxqmw66wS8FH6GTxg87owY5GaJ34UJHDWi2bw/s320/icon%20700x700.png',
                 fit: BoxFit.contain,
               ),
             ),
@@ -63,7 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     lineHeight: 15,
                     percent: 100 / 100,
                     animation: true,
-                    animationDuration: 9000, //7 sec to load bar
+                    animationDuration: 6000, // 7 sec para cargar la barra
                     progressColor: Colors.green,
                   ),
                 ],
@@ -75,11 +61,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Text("Cargando Robot reparador de pixeles",
-                    style: TextStyle(
-                        fontSize: 10,
-                        //fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                Text(
+                  "Cargando Robot reparador de pixeles",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
             const SizedBox(
@@ -90,24 +78,22 @@ class _LoadingScreenState extends State<LoadingScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
                 child: TextButton(
-                  onPressed: _buttonEnabled
+                  onPressed: buttonEnabled
                       ? () async {
-                          isLoaded();
+                          isLoaded(context);
                         }
                       : null, // Desactiva el botón si no está habilitado
                   style: ButtonStyle(
-                    backgroundColor: _buttonEnabled
-                        ? MaterialStateProperty.all<Color>(Colors
-                            .green) // Color de fondo cuando está habilitado
-                        : MaterialStateProperty.all<Color>(Colors
-                            .grey), // Color de fondo cuando está deshabilitado
+                    backgroundColor: buttonEnabled
+                        ? MaterialStateProperty.all<Color>(Colors.green)
+                        : MaterialStateProperty.all<Color>(Colors.grey),
                   ),
-
                   child: Text(
                     'Continuar',
                     style: TextStyle(
-                        fontSize: 12,
-                        color: _buttonEnabled ? Colors.white : Colors.blueGrey),
+                      fontSize: 12,
+                      color: buttonEnabled ? Colors.white : Colors.blueGrey,
+                    ),
                   ),
                 ),
               ),
@@ -118,7 +104,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  isLoaded() {
+  void isLoaded(BuildContext context) {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (_) => const WelcomeScreen()));
   }

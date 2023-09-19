@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/ads.dart';
+import 'package:robotreparadorpixeles/ads/ads.dart';
 import 'package:robotreparadorpixeles/screens/colors_screen.dart';
 import 'package:robotreparadorpixeles/screens/welcome_screen.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScrenn extends StatefulWidget {
   const HomeScrenn({super.key});
@@ -18,6 +20,7 @@ class _HomeScrennState extends State<HomeScrenn> {
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
+  AnchoredAdaptiveBannerAdSize? _adSize;
 
   @override
   void didChangeDependencies() {
@@ -35,6 +38,10 @@ class _HomeScrennState extends State<HomeScrenn> {
       print('Unable to get height of anchored banner.');
       return;
     }
+
+    setState(() {
+      _adSize = size;
+    });
 
     Ads ads = Ads();
 
@@ -63,6 +70,12 @@ class _HomeScrennState extends State<HomeScrenn> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    //_loadAdaptativeAd();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -85,9 +98,10 @@ class _HomeScrennState extends State<HomeScrenn> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: IconButton(
-                icon: const Icon(Icons.share_outlined),
+                icon: const Icon(Icons.info),
                 onPressed: () {
-                  shareApp();
+                  //dialog to go privacy politicies
+                  showAppInfo(context);
                 },
               ),
             ),
@@ -99,47 +113,86 @@ class _HomeScrennState extends State<HomeScrenn> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                height: 230,
-                width: 200.0,
-                child: Image.network(
-                  'https://blogger.googleusercontent.com/img/a/AVvXsEjmvYzgxViZXfwH1MRQhiS8whSx9GbjVku1Djh8xh4qmbm-pdfND-1wB2ZhelNexTJkUkcN2eUy72WTK1T4Sm9LqcAXzRwJMVbXtCsV4Ql_Vf3bofYWRwK4Ef0h7CGi9WnQV020ry9loBXCNlcOXR1ISx4N2POBC0mBokxzZLksWjzegSIIR2lBLUs',
-                  fit: BoxFit.contain,
-                ),
+              Row(
+                children: [
+                  Container(
+                    height: 230,
+                    width: 200.0,
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://blogger.googleusercontent.com/img/a/AVvXsEjmvYzgxViZXfwH1MRQhiS8whSx9GbjVku1Djh8xh4qmbm-pdfND-1wB2ZhelNexTJkUkcN2eUy72WTK1T4Sm9LqcAXzRwJMVbXtCsV4Ql_Vf3bofYWRwK4Ef0h7CGi9WnQV020ry9loBXCNlcOXR1ISx4N2POBC0mBokxzZLksWjzegSIIR2lBLUs',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Column(
+                    children: const [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
+                        child: Center(
+                          child: Text("Repara",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Color.fromARGB(255, 63, 234, 69),
+                                  fontFamily: 'Silkscreen')),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                        child: Text(
+                            "- Pixeles muertos.\n- Pantalla fantasma.\n- Manchas en pantalla.\n- Lineas blancas.",
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontFamily: 'Silkscreen')),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(10, 30, 10, 1),
-                child: Center(
-                  child: Text("Repara: ",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Color.fromARGB(255, 63, 234, 69),
-                          fontFamily: 'Silkscreen')),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Column(
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 20, 20, 1),
+                          child: Center(
+                            child: Text("Recuerde",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color.fromARGB(255, 63, 234, 69),
+                                    fontFamily: 'Silkscreen')),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
+                          child: Text(
+                              "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación durante al menos una semana.",
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.white,
+                                  fontFamily: 'Silkscreen')),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                child: Text(
-                    "- Toques fantasma.\n- Toques automáticos.\n- Pantalla loca. \n- Pixeles muertos.\n- Pantalla fantasma.",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 63, 234, 69),
-                        fontFamily: 'Silkscreen')),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               const Padding(
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: Text(
-                    "Recuerde configurar en su teléfono el tiempo ativo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse.",
+                    "Recuerde configurar en su teléfono el tiempo activo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse para que la rapación no se interrumpa.",
                     style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
+                        fontSize: 10,
+                        color: Colors.blueGrey,
                         fontFamily: 'Silkscreen')),
               ),
               const SizedBox(
-                height: 50,
+                height: 70,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -150,7 +203,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     Column(
                       children: [
                         const Text(
-                          '5 minutos',
+                          '5 min',
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Silkscreen',
@@ -159,7 +212,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                         IconButton(
                           icon: const Icon(
                             Icons.build_circle,
-                            color: Colors.green,
+                            color: Colors.blueGrey,
                             size: 40,
                           ),
                           onPressed: () {
@@ -174,11 +227,11 @@ class _HomeScrennState extends State<HomeScrenn> {
                       ],
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 30,
                     ),
                     Column(
                       children: [
-                        const Text('10 minutos',
+                        const Text('10 min',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
@@ -186,7 +239,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                         IconButton(
                           icon: const Icon(
                             Icons.build_circle,
-                            color: Colors.green,
+                            color: Colors.white,
                             size: 40,
                           ),
                           onPressed: () {
@@ -201,11 +254,11 @@ class _HomeScrennState extends State<HomeScrenn> {
                       ],
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 30,
                     ),
                     Column(
                       children: [
-                        const Text('30 minutos',
+                        const Text('30 min',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
@@ -213,7 +266,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                         IconButton(
                           icon: const Icon(
                             Icons.build_circle,
-                            color: Colors.green,
+                            color: Colors.red,
                             size: 40,
                           ),
                           onPressed: () {
@@ -252,7 +305,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                         IconButton(
                           icon: const Icon(
                             Icons.build_circle,
-                            color: Colors.green,
+                            color: Colors.amber,
                             size: 40,
                           ),
                           onPressed: () {
@@ -267,7 +320,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                       ],
                     ),
                     const SizedBox(
-                      width: 15,
+                      width: 30,
                     ),
                     Column(
                       children: [
@@ -279,7 +332,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                         IconButton(
                           icon: const Icon(
                             Icons.build_circle,
-                            color: Colors.green,
+                            color: Colors.blue,
                             size: 40,
                           ),
                           onPressed: () {
@@ -294,7 +347,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                       ],
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 30,
                     ),
                     Column(
                       children: [
@@ -336,11 +389,17 @@ class _HomeScrennState extends State<HomeScrenn> {
                 child: AdWidget(ad: _anchoredAdaptiveAd!),
               )
             : Container(
-                color: const Color.fromARGB(
-                    0, 55, 77, 56), // Aquí se establece el color del Container
-                width: _anchoredAdaptiveAd!.size.width.toDouble(),
-                height: _anchoredAdaptiveAd!.size.height.toDouble(),
-                child: AdWidget(ad: _anchoredAdaptiveAd!),
+                color: const Color.fromARGB(0, 55, 77, 56),
+                width:
+                    320, // Establece un ancho predeterminado cuando el anuncio no está cargado
+                height:
+                    50, // Establece un alto predeterminado cuando el anuncio no está cargado
+                child: _isLoaded
+                    ? AdWidget(
+                        ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
+                    : const CircularProgressIndicator(
+                        color: Colors.transparent,
+                      ),
               ),
       ),
     );
@@ -350,5 +409,89 @@ class _HomeScrennState extends State<HomeScrenn> {
     Share.share("✅ Repara tu pantalla usando el robot reparador de pixeles."
         "\n\n- Toques fantasma.\n- Toques automáticos.\n- Pantalla loca. \n- Pixeles muertos.\n- Pantalla fantasma."
         "\n\nDescargar app: https://play.google.com/store/apps/details?id=com.robotpixeles.blogspot");
+  }
+
+  void showAppInfo(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            backgroundColor: Colors.white,
+            title: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Información",
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 18.0,
+                        fontFamily: 'Silkscreen'),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: const MaterialStatePropertyAll<Color>(
+                            Color.fromARGB(255, 4, 75, 1)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 4, 75, 1),
+                              width: 5.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Política de privacidad',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontFamily: 'Silkscreen'),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        launch(
+                            'https://robotpixeles.blogspot.com/2022/10/politicas-de-privacidad-de-robot.html');
+                      }),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: const MaterialStatePropertyAll<Color>(
+                            Color.fromARGB(255, 4, 75, 1)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: const BorderSide(
+                              color: Color.fromARGB(255, 4, 75, 1),
+                              width: 5.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Compartir app',
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                            fontFamily: 'Silkscreen'),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        shareApp();
+                      }),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ]),
+          );
+        });
   }
 }
