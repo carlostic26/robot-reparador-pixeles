@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:robotreparadorpixeles/ads/ads.dart';
@@ -41,7 +42,13 @@ Future<void> main() async {
   await loadAd();
   cancelAds();
 
+  FlutterNativeSplash.removeAfter(initialization);
+
   runApp(const ProviderScope(child: MyApp()));
+}
+
+Future initialization(BuildContext? context) async {
+  await Future.delayed(const Duration(seconds: 3));
 }
 
 class MyApp extends StatelessWidget {

@@ -203,7 +203,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     Column(
                       children: [
                         const Text(
-                          '5 min',
+                          '10 min',
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Silkscreen',
@@ -219,7 +219,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 300,
+                                        duration: 10,
                                       )),
                             );
                           },
@@ -231,7 +231,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     ),
                     Column(
                       children: [
-                        const Text('10 min',
+                        const Text('20 min',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
@@ -246,7 +246,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 600,
+                                        duration: 20,
                                       )),
                             );
                           },
@@ -258,7 +258,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     ),
                     Column(
                       children: [
-                        const Text('30 min',
+                        const Text('40 min',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
@@ -273,7 +273,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 1800,
+                                        duration: 40,
                                       )),
                             );
                           },
@@ -312,7 +312,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 3600,
+                                        duration: 60,
                                       )),
                             );
                           },
@@ -339,7 +339,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 10800,
+                                        duration: 180,
                                       )),
                             );
                           },
@@ -351,7 +351,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                     ),
                     Column(
                       children: [
-                        const Text('5 horas',
+                        const Text('6 horas',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Silkscreen',
@@ -366,7 +366,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ColorsScreen(
-                                        SecondsTimer: 18000,
+                                        duration: 360,
                                       )),
                             );
                           },

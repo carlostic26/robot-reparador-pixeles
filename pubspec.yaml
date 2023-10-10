@@ -2,7 +2,7 @@ name: robotreparadorpixeles
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.15+15
+version: 1.0.17+17
 
 environment:
   sdk: '>=2.19.0-429.0.dev <3.0.0'
@@ -24,6 +24,7 @@ dependencies:
   cached_network_image: ^3.2.3
   riverpod: ^2.3.6
   flutter_riverpod: ^2.3.6
+  flutter_native_splash: ^2.2.9
 
 
 flutter_icons:
@@ -37,7 +38,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
-  flutter_native_splash: ^2.2.9
+  
 
 flutter_native_splash:
   color: "#ffffff"

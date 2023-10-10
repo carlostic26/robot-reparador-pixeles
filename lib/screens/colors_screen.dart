@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:math' as math;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:robotreparadorpixeles/ads/ads.dart';
 import 'package:robotreparadorpixeles/screens/home_screen.dart';
 
 final Random randProgress = Random();
 
 class ColorsScreen extends StatefulWidget {
-  ColorsScreen({required this.SecondsTimer, super.key});
+  ColorsScreen({required this.duration, super.key});
 
-  late int SecondsTimer;
+  late int duration;
 
   @override
   State<ColorsScreen> createState() => _ColorsScreenState();
@@ -30,6 +32,13 @@ class _ColorsScreenState extends State<ColorsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _loadAdaptativeAd();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel(); // Cancela el timer antes de descartar el estado
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> _loadAdaptativeAd() async {
@@ -68,39 +77,63 @@ class _ColorsScreenState extends State<ColorsScreen> {
     return _anchoredAdaptiveAd!.load();
   }
 
+  Completer completer = Completer();
+
   @override
   void initState() {
     super.initState();
     //_loadAdaptativeAd();
-
-    var color =
-        Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+    _startTimerLoadingBar(30);
     changerColor();
-
     goBackHome();
-
-    timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
-      changerColor();
-    });
-
+    timerColor();
     // Configurar el timer para ocultar el texto después de 1 minuto
-    Timer(const Duration(seconds: 15), () {
+    ocultarAvisodeReparacion(30);
+
+    Future.delayed(Duration(milliseconds: widget.duration * 60 * 500))
+        .then((value) {
+      completer.complete();
+    });
+  }
+
+  void ocultarAvisodeReparacion(int seconds) {
+    Timer(Duration(seconds: seconds), () {
       setState(() {
         _showText = false;
       });
     });
   }
 
-  @override
-  void dispose() {
-    timer.cancel(); // Cancela el timer antes de descartar el estado
-    super.dispose();
+  void timerColor() {
+    timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
+      changerColor();
+    });
   }
 
   void changerColor() {
     setState(() {
       color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
           .withOpacity(1.0);
+    });
+  }
+
+  double _progressValue = 0.0;
+  Timer? _timer;
+
+  void _startTimerLoadingBar(int minutes) {
+    const oneMinute = Duration(minutes: 1);
+    final duration = Duration(minutes: minutes);
+    int elapsedMinutes = 0;
+
+    _timer = Timer.periodic(oneMinute, (timer) {
+      setState(() {
+        if (elapsedMinutes < minutes) {
+          elapsedMinutes++;
+          _progressValue = elapsedMinutes / minutes;
+        } else {
+          timer.cancel();
+        }
+      });
     });
   }
 
@@ -115,23 +148,63 @@ class _ColorsScreenState extends State<ColorsScreen> {
       },
       child: Scaffold(
         backgroundColor: color,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent, // Fondo transparente
-          elevation: 0, // Sin sombra
-          toolbarHeight: 700, // Altura personalizada
-          iconTheme: const IconThemeData(
-              color: Colors.transparent), // Color de ícono transparente
 
-          title: _showText
-              ? const Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                    textAlign: TextAlign.center,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Visibility(
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                visible: !completer.isCompleted,
+                child: SizedBox(
+                  height: 100,
+                  child: CachedNetworkImage(
+                      imageUrl:
+                          'https://media1.giphy.com/media/ETUgqjnAV7AZUKbQMu/giphy.gif?cid=6c09b952lmopkynfrbd928kfzliidlqm39mjehwg0z9v60zb&rid=giphy.gif&ct=s'),
+                ),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+              _showText
+                  ? const Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'REPARANDO...\n\nNo apague ni cierre la app.\nSe están reparando los pixeles.',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : Container(), // Muestra un contenedor vacío cuando _showText es falso
+
+              Visibility(
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                visible: !completer.isCompleted,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    //this row will center the LinearPercent
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LinearPercentIndicator(
+                        width: 250.0,
+                        lineHeight: 15,
+                        percent: 100 / 100,
+                        animation: true,
+                        animationDuration: widget.duration * 60 * 700,
+                        progressColor: Colors.grey,
+                      ),
+                    ],
                   ),
-                )
-              : Container(), // Muestra un contenedor vacío cuando _showText es falso
+                ), // Ocultar el widget después de que se complete la animación.
+              ),
+            ],
+          ),
         ),
 
         //adaptative banner bottom screen
@@ -159,19 +232,8 @@ class _ColorsScreenState extends State<ColorsScreen> {
     );
   }
 
-/*   changerColor() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-            .withOpacity(1.0);
-      });
-    });
-
-    return color;
-  } */
-
   goBackHome() {
-    Future.delayed(Duration(seconds: widget.SecondsTimer), () {
+    Future.delayed(Duration(minutes: widget.duration), () {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const HomeScrenn()),
       );
