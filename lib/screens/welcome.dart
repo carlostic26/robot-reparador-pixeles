@@ -1,10 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/ads/ads.dart';
-import 'package:robotreparadorpixeles/screens/home_screen.dart';
-import 'package:share_plus/share_plus.dart';
+import 'importaciones.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -68,8 +63,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         onAdDismissedFullScreenContent: (ad) {
           //when ad closed, run this
 
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const HomeScrenn()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const HomeLcdScrenn()));
           ad.dispose();
           createInterstitialAd();
         },
@@ -104,7 +99,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.grey[850],
-        appBar: AppBar(
+/*         appBar: AppBar(
           backgroundColor: Colors.green,
           title: const Text(
             'Bienvenido',
@@ -124,13 +119,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ],
           centerTitle: true,
-        ),
+        ), */
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 50),
+              const SizedBox(height: 150),
               Center(
                 child: Container(
                   height: 250,
@@ -188,8 +183,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     //showDialogVerAd(context);
 
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (_) => const HomeScrenn()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SelectPantalla()));
                   }),
             ],
           ),

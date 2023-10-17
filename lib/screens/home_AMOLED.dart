@@ -1,22 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/ads/ads.dart';
-import 'package:robotreparadorpixeles/screens/colors_screen.dart';
-import 'package:robotreparadorpixeles/screens/welcome_screen.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:robotreparadorpixeles/screens/reparando_AMOLED.dart';
+import 'importaciones.dart';
 
-class HomeScrenn extends StatefulWidget {
-  const HomeScrenn({super.key});
+class HomeAmoledScrenn extends StatefulWidget {
+  const HomeAmoledScrenn({super.key});
 
   @override
-  State<HomeScrenn> createState() => _HomeScrennState();
+  State<HomeAmoledScrenn> createState() => _HomeAmoledScrennState();
 }
 
 const int maxAttempts = 3;
 
-class _HomeScrennState extends State<HomeScrenn> {
+class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
@@ -89,7 +84,7 @@ class _HomeScrennState extends State<HomeScrenn> {
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: const Text(
-            'Tu Robot Reparador de Pantalla',
+            'Reparador de Pantalla AMOLED',
             style: TextStyle(
               fontSize: 12.0, /*fontWeight: FontWeight.bold*/
             ),
@@ -218,7 +213,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 10,
                                       )),
                             );
@@ -245,7 +240,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 20,
                                       )),
                             );
@@ -272,7 +267,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 40,
                                       )),
                             );
@@ -311,7 +306,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 60,
                                       )),
                             );
@@ -338,7 +333,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 180,
                                       )),
                             );
@@ -365,7 +360,7 @@ class _HomeScrennState extends State<HomeScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ColorsScreen(
+                                  builder: (context) => ReparandoColorsAMOLED(
                                         duration: 360,
                                       )),
                             );

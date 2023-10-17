@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:robotreparadorpixeles/provider/riverpod.dart';
-import 'package:robotreparadorpixeles/screens/welcome_screen.dart';
+import 'importaciones.dart';
 
 class LoadingScreen extends ConsumerWidget {
   @override

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:robotreparadorpixeles/ads/ads.dart';
-import 'package:robotreparadorpixeles/screens/loading_screen.dart';
-import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:robotreparadorpixeles/screens/importaciones.dart';
 
 AppOpenAd? openAd;
 bool isAdLoaded = false;
