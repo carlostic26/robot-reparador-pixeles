@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'importaciones.dart';
+import '../importaciones.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -183,7 +183,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     //showDialogVerAd(context);
 
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const SelectPantalla()));

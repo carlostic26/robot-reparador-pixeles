@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'importaciones.dart';
+import '../importaciones.dart';
 
 final Random randProgress = Random();
 
@@ -137,25 +137,24 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        print(" no go back until repair finish");
-
         interrupcion(context);
         return true;
       },
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: CachedNetworkImageProvider(
-                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8al0JP35hhHlRLD8ybqf0Z0bDZP8lqiUVhBtVkklLAZM6si8ibtL2KMecBu1Vjq9_oLThyK5YovWvH2g0my1D5Z6GlunmGWJ1qIaKxe8zFIxFkrhSll8sdvbX9YmlzDwoZD8Pb06Wmvi3U5clvDjjL_9LdW4XhRbFhIV2MtT2kM3hTuWpxzxuD-BK/s16000/reparar%20AMOLED.gif",
-                  ),
-                  fit: BoxFit.cover,
+      child: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8al0JP35hhHlRLD8ybqf0Z0bDZP8lqiUVhBtVkklLAZM6si8ibtL2KMecBu1Vjq9_oLThyK5YovWvH2g0my1D5Z6GlunmGWJ1qIaKxe8zFIxFkrhSll8sdvbX9YmlzDwoZD8Pb06Wmvi3U5clvDjjL_9LdW4XhRbFhIV2MtT2kM3hTuWpxzxuD-BK/s16000/reparar%20AMOLED.gif",
                 ),
+                fit: BoxFit.cover,
               ),
             ),
-            Center(
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -170,11 +169,12 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black
+                                color: Colors.white
                                     .withOpacity(0.1), // Color de la sombra
                                 spreadRadius: 8, // Extensión de la sombra
                                 blurRadius: 10, // Suavizado de la sombra
-                                offset: Offset(0, 3), // Posición de la sombra
+                                offset:
+                                    const Offset(0, 3), // Posición de la sombra
                               ),
                             ],
                           ),
@@ -197,7 +197,8 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                                     .withOpacity(0.3), // Color de la sombra
                                 spreadRadius: 8, // Extensión de la sombra
                                 blurRadius: 10, // Suavizado de la sombra
-                                offset: Offset(0, 5), // Posición de la sombra
+                                offset:
+                                    const Offset(0, 5), // Posición de la sombra
                               ),
                             ],
                           ),
@@ -241,30 +242,27 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                 ],
               ),
             ),
-          ],
-        ),
 
-        //adaptative banner bottom screen
-        bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
-            ? Container(
-                color: const Color.fromARGB(0, 55, 77, 56),
-                width: _anchoredAdaptiveAd!.size.width.toDouble(),
-                height: _anchoredAdaptiveAd!.size.height.toDouble(),
-                child: AdWidget(ad: _anchoredAdaptiveAd!),
-              )
-            : Container(
-                color: const Color.fromARGB(0, 55, 77, 56),
-                width:
-                    320, // Establece un ancho predeterminado cuando el anuncio no está cargado
-                height:
-                    50, // Establece un alto predeterminado cuando el anuncio no está cargado
-                child: _isLoaded
-                    ? AdWidget(
-                        ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
-                    : const CircularProgressIndicator(
-                        color: Colors.transparent,
-                      ),
-              ),
+            //adaptative banner bottom screen
+            bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
+                ? Container(
+                    color: Colors.transparent,
+                    width: _anchoredAdaptiveAd!.size.width.toDouble(),
+                    height: _anchoredAdaptiveAd!.size.height.toDouble(),
+                    child: AdWidget(ad: _anchoredAdaptiveAd!),
+                  )
+                : Container(
+                    color: Colors.transparent,
+                    width: 320,
+                    height: 50,
+                    child: _isLoaded
+                        ? AdWidget(ad: _anchoredAdaptiveAd!)
+                        : const CircularProgressIndicator(
+                            color: Colors.transparent,
+                          ),
+                  ),
+          ),
+        ],
       ),
     );
   }
@@ -285,10 +283,10 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
         builder: (BuildContext context) {
           return SimpleDialog(
               backgroundColor: Colors.white,
-              title: Column(
+              title: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "Reparación interrumpida",
                       style: TextStyle(
@@ -347,10 +345,10 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
         builder: (BuildContext context) {
           return SimpleDialog(
               backgroundColor: Colors.white,
-              title: Column(
+              title: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "¡Listo!",
                       style: TextStyle(

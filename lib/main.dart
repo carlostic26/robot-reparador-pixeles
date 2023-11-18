@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:robotreparadorpixeles/screens/importaciones.dart';
+import 'package:robotreparadorpixeles/presentation/importaciones.dart';
 
 AppOpenAd? openAd;
 bool isAdLoaded = false;

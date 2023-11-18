@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'importaciones.dart';
+import '../importaciones.dart';
 
 class LoadingScreen extends ConsumerWidget {
   @override

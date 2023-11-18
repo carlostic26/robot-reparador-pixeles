@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:robotreparadorpixeles/screens/reparando_AMOLED.dart';
-import 'importaciones.dart';
+import '../importaciones.dart';
 
-class HomeAmoledScrenn extends StatefulWidget {
-  const HomeAmoledScrenn({super.key});
+class HomeLcdScrenn extends StatefulWidget {
+  const HomeLcdScrenn({super.key});
 
   @override
-  State<HomeAmoledScrenn> createState() => _HomeAmoledScrennState();
+  State<HomeLcdScrenn> createState() => _HomeLcdScrennState();
 }
 
 const int maxAttempts = 3;
 
-class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
+class _HomeLcdScrennState extends State<HomeLcdScrenn> {
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
@@ -84,7 +83,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: const Text(
-            'Reparador de Pantalla AMOLED',
+            'Reparador de Pantalla LCD',
             style: TextStyle(
               fontSize: 12.0, /*fontWeight: FontWeight.bold*/
             ),
@@ -110,9 +109,9 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
             children: [
               Row(
                 children: [
-                  Container(
-                    height: 230,
-                    width: 200.0,
+                  SizedBox(
+                    height: 200,
+                    width: 180.0,
                     child: CachedNetworkImage(
                       imageUrl:
                           'https://blogger.googleusercontent.com/img/a/AVvXsEjmvYzgxViZXfwH1MRQhiS8whSx9GbjVku1Djh8xh4qmbm-pdfND-1wB2ZhelNexTJkUkcN2eUy72WTK1T4Sm9LqcAXzRwJMVbXtCsV4Ql_Vf3bofYWRwK4Ef0h7CGi9WnQV020ry9loBXCNlcOXR1ISx4N2POBC0mBokxzZLksWjzegSIIR2lBLUs',
@@ -120,36 +119,81 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                     ),
                   ),
                   Column(
-                    children: const [
-                      Padding(
+                    children: [
+                      const Padding(
                         padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
                         child: Center(
-                          child: Text("Repara",
+                          child: Text("Tutorial",
                               style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 20,
                                   color: Color.fromARGB(255, 63, 234, 69),
                                   fontFamily: 'Silkscreen')),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                        child: Text(
-                            "- Pixeles muertos.\n- Pantalla fantasma.\n- Manchas en pantalla.\n- Lineas blancas.",
-                            style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen')),
+                      SizedBox(
+                        height: 120,
+                        width: 200,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Imagen de fondo
+                              CachedNetworkImage(
+                                imageUrl:
+                                    'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+
+                              // Degradado que ocupa la imagen
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        Colors.black.withOpacity(0.8),
+                                        Colors.transparent,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              // Botón de reproducción
+                              InkWell(
+                                onTap: _launchYouTubeVideo,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(187, 130, 130, 130),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     Column(
-                      children: const [
+                      children: [
                         Padding(
                           padding: EdgeInsets.fromLTRB(20, 20, 20, 1),
                           child: Center(
@@ -213,7 +257,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 10,
                                       )),
                             );
@@ -240,7 +284,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 20,
                                       )),
                             );
@@ -267,7 +311,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 40,
                                       )),
                             );
@@ -306,7 +350,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 60,
                                       )),
                             );
@@ -333,7 +377,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 180,
                                       )),
                             );
@@ -360,7 +404,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsAMOLED(
+                                  builder: (context) => ReparandoColorsLCD(
                                         duration: 360,
                                       )),
                             );
@@ -398,6 +442,20 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
               ),
       ),
     );
+  }
+
+  void _launchYouTubeVideo() async {
+    const url = 'https://youtu.be/XosdL2MuUNk';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(
+        msg: "Busca en YouTube: TICnoticos reparar pantalla",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
+      throw 'No se pudo abrir el enlace: $url';
+    }
   }
 
   void shareApp() {

@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'importaciones.dart';
+import '../importaciones.dart';
 
 final Random randProgress = Random();
 
