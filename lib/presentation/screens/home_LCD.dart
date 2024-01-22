@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../importaciones.dart';
+import 'widgets/animated_background.dart';
 
 class HomeLcdScrenn extends StatefulWidget {
   const HomeLcdScrenn({super.key});
@@ -71,120 +72,97 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const WelcomeScreen()));
-
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: Colors.grey[850],
-        appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Text(
-            'Reparador de Pantalla LCD',
-            style: TextStyle(
-              fontSize: 12.0, /*fontWeight: FontWeight.bold*/
-            ),
+    return Scaffold(
+      backgroundColor: Colors.grey[850],
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
+        title: const Text(
+          'Reparador de Pantalla LCD',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12.0, /*fontWeight: FontWeight.bold*/
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: IconButton(
-                icon: const Icon(Icons.info),
-                onPressed: () {
-                  //dialog to go privacy politicies
-                  showAppInfo(context);
-                },
-              ),
-            ),
-          ],
-          centerTitle: true,
         ),
-        body: SingleChildScrollView(
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        centerTitle: true,
+      ),
+      body: Stack(children: [
+        //AnimatedBackground(),
+        SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              Column(
                 children: [
-                  SizedBox(
-                    height: 200,
-                    width: 180.0,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://blogger.googleusercontent.com/img/a/AVvXsEjmvYzgxViZXfwH1MRQhiS8whSx9GbjVku1Djh8xh4qmbm-pdfND-1wB2ZhelNexTJkUkcN2eUy72WTK1T4Sm9LqcAXzRwJMVbXtCsV4Ql_Vf3bofYWRwK4Ef0h7CGi9WnQV020ry9loBXCNlcOXR1ISx4N2POBC0mBokxzZLksWjzegSIIR2lBLUs',
-                      fit: BoxFit.contain,
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
+                    child: Center(
+                      child: Text("Tutorial",
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Color.fromARGB(255, 63, 234, 69),
+                              fontFamily: 'Silkscreen')),
                     ),
                   ),
-                  Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
-                        child: Center(
-                          child: Text("Tutorial",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color.fromARGB(255, 63, 234, 69),
-                                  fontFamily: 'Silkscreen')),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 120,
-                        width: 200,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // Imagen de fondo
-                              CachedNetworkImage(
-                                imageUrl:
-                                    'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-
-                              // Degradado que ocupa la imagen
-                              Positioned.fill(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Colors.black.withOpacity(0.8),
-                                        Colors.transparent,
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                              // Botón de reproducción
-                              InkWell(
-                                onTap: _launchYouTubeVideo,
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(187, 130, 130, 130),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
+                  SizedBox(
+                    height: 120,
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Imagen de fondo
+                          CachedNetworkImage(
+                            imageUrl:
+                                'https://i.ytimg.com/vi/XosdL2MuUNk/maxresdefault.jpg',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                        ),
+
+                          // Degradado que ocupa la imagen
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.8),
+                                    Colors.transparent,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Botón de reproducción
+                          InkWell(
+                            onTap: _launchYouTubeVideo,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(187, 130, 130, 130),
+                                shape: BoxShape.circle,
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -231,7 +209,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
                         fontFamily: 'Silkscreen')),
               ),
               const SizedBox(
-                height: 70,
+                height: 50,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -258,7 +236,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ReparandoColorsLCD(
-                                        duration: 10,
+                                        duration: 11,
                                       )),
                             );
                           },
@@ -285,7 +263,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ReparandoColorsLCD(
-                                        duration: 20,
+                                        duration: 22,
                                       )),
                             );
                           },
@@ -312,7 +290,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => ReparandoColorsLCD(
-                                        duration: 40,
+                                        duration: 45,
                                       )),
                             );
                           },
@@ -418,29 +396,29 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
             ],
           ),
         ),
+      ]),
 
-        //adaptative banner bottom screen
-        bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
-            ? Container(
-                color: const Color.fromARGB(0, 55, 77, 56),
-                width: _anchoredAdaptiveAd!.size.width.toDouble(),
-                height: _anchoredAdaptiveAd!.size.height.toDouble(),
-                child: AdWidget(ad: _anchoredAdaptiveAd!),
-              )
-            : Container(
-                color: const Color.fromARGB(0, 55, 77, 56),
-                width:
-                    320, // Establece un ancho predeterminado cuando el anuncio no está cargado
-                height:
-                    50, // Establece un alto predeterminado cuando el anuncio no está cargado
-                child: _isLoaded
-                    ? AdWidget(
-                        ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
-                    : const CircularProgressIndicator(
-                        color: Colors.transparent,
-                      ),
-              ),
-      ),
+      //adaptative banner bottom screen
+      bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
+          ? Container(
+              color: const Color.fromARGB(0, 55, 77, 56),
+              width: _anchoredAdaptiveAd!.size.width.toDouble(),
+              height: _anchoredAdaptiveAd!.size.height.toDouble(),
+              child: AdWidget(ad: _anchoredAdaptiveAd!),
+            )
+          : Container(
+              color: const Color.fromARGB(0, 55, 77, 56),
+              width:
+                  320, // Establece un ancho predeterminado cuando el anuncio no está cargado
+              height:
+                  50, // Establece un alto predeterminado cuando el anuncio no está cargado
+              child: _isLoaded
+                  ? AdWidget(
+                      ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
+                  : const CircularProgressIndicator(
+                      color: Colors.transparent,
+                    ),
+            ),
     );
   }
 
@@ -456,95 +434,5 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
       );
       throw 'No se pudo abrir el enlace: $url';
     }
-  }
-
-  void shareApp() {
-    Share.share("✅ Repara tu pantalla usando el robot reparador de pixeles."
-        "\n\n- Toques fantasma.\n- Toques automáticos.\n- Pantalla loca. \n- Pixeles muertos.\n- Pantalla fantasma."
-        "\n\nDescargar app: https://play.google.com/store/apps/details?id=com.robotpixeles.blogspot");
-  }
-
-  void showAppInfo(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            backgroundColor: Colors.white,
-            title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Información",
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 18.0,
-                        fontFamily: 'Silkscreen'),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: const MaterialStatePropertyAll<Color>(
-                            Color.fromARGB(255, 4, 75, 1)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: const BorderSide(
-                              color: Color.fromARGB(255, 4, 75, 1),
-                              width: 5.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Política de privacidad',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen'),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        launch(
-                            'https://robotpixeles.blogspot.com/2022/10/politicas-de-privacidad-de-robot.html');
-                      }),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: const MaterialStatePropertyAll<Color>(
-                            Color.fromARGB(255, 4, 75, 1)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: const BorderSide(
-                              color: Color.fromARGB(255, 4, 75, 1),
-                              width: 5.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Compartir app',
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen'),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        shareApp();
-                      }),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                ]),
-          );
-        });
   }
 }

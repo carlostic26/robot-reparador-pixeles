@@ -37,13 +37,7 @@ Future<void> main() async {
   await loadAd();
   cancelAds();
 
-  FlutterNativeSplash.removeAfter(initialization);
-
   runApp(const ProviderScope(child: MyApp()));
-}
-
-Future initialization(BuildContext? context) async {
-  await Future.delayed(const Duration(seconds: 3));
 }
 
 class MyApp extends StatelessWidget {
@@ -67,11 +61,11 @@ Future<void> cancelAds() async {
   await Future.delayed(const Duration(seconds: 9), () async {
     if (!isAdLoaded) {
       openAd?.dispose();
-      print("Anuncio de apertura cancelado después de 9 segundos.");
+      //print("Anuncio de apertura cancelado después de 9 segundos.");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('adCancelado', true);
     } else {
-      print("Anuncio de apertura mostrado correctamente.");
+      //print("Anuncio de apertura mostrado correctamente.");
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('adCancelado', false);
     }

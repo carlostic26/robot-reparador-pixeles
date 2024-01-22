@@ -22,8 +22,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Ads ads = Ads();
 
   //Creating interstitial
-  //used for the moment
-  void createInterstitialAd() {
+  //no used for the moment
+/*   void createInterstitialAd() {
     InterstitialAd.load(
         adUnitId: ads.intersticial,
         request: request,
@@ -78,14 +78,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     interstitialAd!.show();
     interstitialAd = null;
   }
-
+ */
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     //load ads
-    createInterstitialAd();
+    //createInterstitialAd();
   }
 
   @override
@@ -99,27 +99,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.grey[850],
-/*         appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Text(
-            'Bienvenido',
-            style: TextStyle(
-              fontSize: 16.0, /*fontWeight: FontWeight.bold*/
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: IconButton(
-                icon: const Icon(Icons.share_outlined),
-                onPressed: () {
-                  shareApp();
-                },
-              ),
-            ),
-          ],
-          centerTitle: true,
-        ), */
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +174,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  void showDialogVerAd(BuildContext context) {
+/*   void showDialogVerAd(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -260,7 +239,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ]);
         });
   }
-
+ */
   void shareApp() {
     Share.share("✅ Repara tu pantalla usando el robot reparador de pixeles."
         "\n\n- Toques fantasma.\n- Toques automáticos.\n- Pantalla loca. \n- Pixeles muertos.\n- Pantalla fantasma."

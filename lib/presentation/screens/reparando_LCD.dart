@@ -74,6 +74,20 @@ class _ReparandoColorsLCDState extends State<ReparandoColorsLCD> {
 
   Completer completer = Completer();
 
+  int _start = 9000;
+
+  void startTimerRetro() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_start < 1) {
+          timer.cancel();
+        } else {
+          _start--;
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -244,10 +258,10 @@ class _ReparandoColorsLCDState extends State<ReparandoColorsLCD> {
         builder: (BuildContext context) {
           return SimpleDialog(
               backgroundColor: Colors.white,
-              title: Column(
+              title: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       "Reparación interrumpida",
                       style: TextStyle(
@@ -301,6 +315,12 @@ class _ReparandoColorsLCDState extends State<ReparandoColorsLCD> {
   }
 
   void showDialogFinished(BuildContext context) {
+    startTimerRetro();
+
+    int hours = _start ~/ 3600;
+    int minutes = (_start % 3600) ~/ 60;
+    int seconds = _start % 60;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -309,23 +329,23 @@ class _ReparandoColorsLCDState extends State<ReparandoColorsLCD> {
               title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "¡Listo!",
                       style: TextStyle(
                           color: Colors.green,
                           fontSize: 25.0,
                           fontFamily: 'Silkscreen'),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
-                          'El robot reparador de pixeles ha mejorado el desempeño. \n\nPara mejores resultados se recomienda usar el reparador durante una semana con un tiempo mayor.\n\nPrueba tu pantalla y aumenta el tiempo de reparación en caso de ser necesario.',
-                          style: TextStyle(
+                          'Hemos mejorado tu pantalla. Pero puede ser necesario volver a usar el robot. Vuelve en ${hours}h ${minutes}m ${seconds}s.\n\nPrueba tu pantalla y aumenta el tiempo de reparación si lo ves necesario.',
+                          style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,
                               fontFamily: 'Silkscreen'),
