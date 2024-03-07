@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:robotreparadorpixeles/presentation/screens/select_pantalla.dart';
 import '../importaciones.dart';
 
 class WelcomeScreen extends StatefulWidget {

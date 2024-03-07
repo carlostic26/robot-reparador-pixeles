@@ -12,7 +12,6 @@ export 'dart:async';
 export 'package:percent_indicator/linear_percent_indicator.dart';
 export 'package:robotreparadorpixeles/presentation/screens/home_LCD.dart';
 export 'package:robotreparadorpixeles/provider/riverpod.dart';
-export 'package:robotreparadorpixeles/presentation/screens/select_pantalla.dart';
 export 'package:fluttertoast/fluttertoast.dart';
 export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:robotreparadorpixeles/presentation/screens/loading_screen.dart';

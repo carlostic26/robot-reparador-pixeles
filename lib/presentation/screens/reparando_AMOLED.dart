@@ -15,6 +15,52 @@ class ReparandoColorsAMOLED extends StatefulWidget {
 }
 
 class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
+  Ads ads = Ads();
+
+  //initializing intersticial ad
+  InterstitialAd? interstitialAd;
+  int interstitialAttempts = 0;
+
+  static const AdRequest request = AdRequest(
+      //keywords: ['',''],
+      //contentUrl: '',
+      //nonPersonalizedAds: false
+      );
+
+  //Creating interstitial
+  void createInterstitialAd() {
+    InterstitialAd.load(
+        // ignore: deprecated_member_use
+        adUnitId: ads.interstitial,
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
+          interstitialAd = ad;
+          interstitialAttempts = 0;
+        }, onAdFailedToLoad: (error) {
+          interstitialAttempts++;
+          interstitialAd = null;
+          // print( '-------------------\n\n\n - failed to load interstitial:\n ${error.message}');
+
+          if (interstitialAttempts <= maxAttempts) {
+            createInterstitialAd();
+          }
+        }));
+  }
+
+  void showInterstitialAd() {
+    interstitialAd!.fullScreenContentCallback =
+        FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) async {
+      //TODO: navegar a la siguiente pantalla
+
+      ad.dispose();
+    }, onAdFailedToShowFullScreenContent: (ad, error) {
+      ad.dispose();
+    });
+
+    interstitialAd!.show();
+    interstitialAd = null;
+  }
+
   late Timer timer;
   var color;
   bool _showText = true;
@@ -91,6 +137,7 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
   @override
   void initState() {
     super.initState();
+    createInterstitialAd();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     //_loadAdaptativeAd();
     _startTimerLoadingBar(30);
@@ -283,7 +330,7 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
 
   goBackHome() {
     Future.delayed(Duration(minutes: widget.duration), () {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomeLcdScrenn()),
       );
 
@@ -383,12 +430,25 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
-                          'Hemos mejorado tu pantalla. Pero puede ser necesario volver a usar el robot. Vuelve en ${hours}h ${minutes}m ${seconds}s.\n\nPrueba tu pantalla y aumenta el tiempo de reparación si lo ves necesario.',
+                          'Hemos mejorado tu pantalla. Será necesario volver a usar el robot. Vuelve en ${hours}h ${minutes}m ${seconds}s.\n\nPrueba tu pantalla y aumenta el tiempo de reparación si lo ves necesario.',
                           style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,
                               fontFamily: 'Silkscreen'),
                         ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10, // Espacio antes del nuevo mensaje
+                    ),
+                    Center(
+                      child: Text(
+                        '¿Puedes apoyarnos viendo un anuncio?',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.0,
+                            fontFamily: 'Silkscreen'),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ]),
@@ -398,10 +458,9 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: const MaterialStatePropertyAll<Color>(
+                        backgroundColor: MaterialStatePropertyAll<Color>(
                             Color.fromARGB(255, 4, 75, 1)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                        shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                             side: const BorderSide(
@@ -419,6 +478,7 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                             fontFamily: 'Silkscreen'),
                       ),
                       onPressed: () {
+                        showInterstitialAd();
                         Navigator.pop(context);
                       }),
                 ),

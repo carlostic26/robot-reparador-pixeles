@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:robotreparadorpixeles/presentation/importaciones.dart';
+import 'package:robotreparadorpixeles/presentation/theme/theme.dart';
 
 AppOpenAd? openAd;
 bool isAdLoaded = false;
@@ -49,9 +50,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Robot reparador',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: MyTheme.light,
       home: LoadingScreen(),
     );
   }

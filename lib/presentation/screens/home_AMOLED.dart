@@ -250,7 +250,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => ReparandoColorsAMOLED(
-                                      duration: 11,
+                                      duration: 1,
                                     )),
                           );
                         },

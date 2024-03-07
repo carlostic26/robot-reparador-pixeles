@@ -11,7 +11,62 @@ class SelectPantalla extends StatefulWidget {
   State<SelectPantalla> createState() => _SelectPantallaState();
 }
 
+const int maxAttempts = 3;
+
 class _SelectPantallaState extends State<SelectPantalla> {
+  Ads ads = Ads();
+
+  //initializing intersticial ad
+  InterstitialAd? interstitialAd;
+  int interstitialAttempts = 0;
+
+  static const AdRequest request = AdRequest(
+      //keywords: ['',''],
+      //contentUrl: '',
+      //nonPersonalizedAds: false
+      );
+
+  //Creating interstitial
+  void createInterstitialAd() {
+    InterstitialAd.load(
+        // ignore: deprecated_member_use
+        adUnitId: ads.interstitial,
+        request: request,
+        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
+          interstitialAd = ad;
+          interstitialAttempts = 0;
+        }, onAdFailedToLoad: (error) {
+          interstitialAttempts++;
+          interstitialAd = null;
+          // print( '-------------------\n\n\n - failed to load interstitial:\n ${error.message}');
+
+          if (interstitialAttempts <= maxAttempts) {
+            createInterstitialAd();
+          }
+        }));
+  }
+
+  void showInterstitialAd() {
+    interstitialAd!.fullScreenContentCallback =
+        FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) async {
+      //TODO: navegar a la siguiente pantalla
+
+      ad.dispose();
+    }, onAdFailedToShowFullScreenContent: (ad, error) {
+      ad.dispose();
+    });
+
+    interstitialAd!.show();
+    interstitialAd = null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    createInterstitialAd();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +148,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                   OutlinedButton(
                     onPressed: () {
                       GoLCD();
+                      showInterstitialAd();
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.grey,
@@ -105,6 +161,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                   OutlinedButton(
                     onPressed: () {
                       GoAMOLED();
+                      showInterstitialAd();
                     },
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.grey,
