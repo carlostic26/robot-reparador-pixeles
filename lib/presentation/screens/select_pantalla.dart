@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:robotreparadorpixeles/presentation/screens/home_AMOLED.dart';
 import 'package:robotreparadorpixeles/presentation/importaciones.dart';
 
-import 'widgets/animated_background.dart';
-
 class SelectPantalla extends StatefulWidget {
   const SelectPantalla({super.key});
 
@@ -19,6 +17,8 @@ class _SelectPantallaState extends State<SelectPantalla> {
   //initializing intersticial ad
   InterstitialAd? interstitialAd;
   int interstitialAttempts = 0;
+  BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
 
   static const AdRequest request = AdRequest(
       //keywords: ['',''],
@@ -63,193 +63,248 @@ class _SelectPantallaState extends State<SelectPantalla> {
   @override
   void initState() {
     super.initState();
-
     createInterstitialAd();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadAdaptativeAd();
+    _loadAdaptativeAd();
+  }
+
+  Future<void> _loadAdaptativeAd() async {
+    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
+    final AnchoredAdaptiveBannerAdSize? size =
+        await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            MediaQuery.of(context).size.width.truncate());
+
+    if (size == null) {
+      print('Unable to get height of anchored banner.');
+      return;
+    }
+
+    setState(() {});
+
+    Ads ads = Ads();
+
+    _anchoredAdaptiveAd = BannerAd(
+      // TODO: replace these test ad units with your own ad unit.
+      adUnitId: ads.banner,
+      size: size,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          print('$ad loaded: ${ad.responseInfo}');
+          setState(() {
+            // When the ad is loaded, get the ad size and use it to set
+            // the height of the ad container.
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          print('Anchored adaptive banner failedToLoad: $error');
+          ad.dispose();
+        },
+      ),
+    );
+    return _anchoredAdaptiveAd!.load();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[850],
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          title: const Text(
-            'Reparar',
-            style: TextStyle(
+      backgroundColor: Colors.grey[850],
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Elegir tipo de pantalla',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: Colors.white,
+            icon: const Icon(Icons.arrow_back)),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: IconButton(
               color: Colors.white,
-              fontSize: 12.0, /*fontWeight: FontWeight.bold*/
+              icon: const Icon(Icons.info),
+              onPressed: () {
+                //dialog to go privacy politicies
+                showAppInfo(context);
+              },
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: IconButton(
-                color: Colors.white,
-                icon: const Icon(Icons.info),
-                onPressed: () {
-                  //dialog to go privacy politicies
-                  showAppInfo(context);
-                },
-              ),
+        ],
+      ),
+      body: Stack(children: [
+        //AnimatedBackground(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 50,
             ),
-          ],
-        ),
-        body: Stack(children: [
-          //AnimatedBackground(),
-          Center(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Center(
-                      child: SizedBox(
-                        height: 100,
-                        width: 150.0,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQPf4exY3SR7fo7OeULIVgbSAJnWQ0aVbSCsre0LZzzdCYjT1R0xtto8fuF2C1haXsLe9zVZ5T7FVyU6WH2MRU4Bj41bR-xxKKwi55x_uJ2HA4aBq4lH4qM0o51y1R0dPPIciEiQgeqXVFDYN0NyC6ANUkvtFdUJhe42cOWdCZcuYQrt6meMqSTHQ/s320/banner%20logo%20app%20x500.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+            OutlinedButton(
+              onPressed: () {
+                GoLCD();
+                showInterstitialAd();
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey,
+                side: const BorderSide(color: Colors.grey, width: 2),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              child: const Text('LCD (IPS,TFT)'),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            OutlinedButton(
+              onPressed: () {
+                GoAMOLED();
+                showInterstitialAd();
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey,
+                side: const BorderSide(color: Colors.grey, width: 2),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              child: const Text('AMOLED'),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            OutlinedButton(
+              onPressed: () {
+                GoAMOLED();
+                showInterstitialAd();
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.grey,
+                side: const BorderSide(color: Colors.grey, width: 2),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              child: const Text('OLED'),
+            ),
+            const SizedBox(
+              height: 80,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    const Text(
+                      '¿No sabes que pantalla tienes?',
+                      style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 10.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Silkscreen'),
                     ),
-                    const Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(15, 10, 10, 1),
-                          child: Text(
-                              "- Toques fantasma.\n- Toques automáticos.\n- Pantalla loca. \n- Pixeles muertos.\n- Pantalla fantasma.",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontFamily: 'Silkscreen')),
-                        ),
-                      ],
+                    const Text(
+                      'Revisa el tutorial en YouTube',
+                      style: TextStyle(
+                          fontSize: 8.0,
+                          color: Colors.grey,
+                          fontFamily: 'Silkscreen'),
                     ),
-                  ]),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  const Text(
-                    'Elegir tipo de pantalla',
-                    style: TextStyle(
-                        fontSize: 12.0,
-                        color: Color.fromARGB(255, 63, 234, 69),
-                        fontFamily: 'Silkscreen'),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      GoLCD();
-                      showInterstitialAd();
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      side: const BorderSide(color: Colors.grey, width: 2),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    child: const Text('IPS LCD - TFT'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      GoAMOLED();
-                      showInterstitialAd();
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      side: const BorderSide(color: Colors.grey, width: 2),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    child: const Text('AMOLED - OLED'),
-                  ),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  const Text(
-                    '¿No sabes que pantalla tienes?',
-                    style: TextStyle(
-                        //fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                        color: Colors.green,
-                        fontFamily: 'Silkscreen'),
-                  ),
-                  const Text(
-                    'Revisa el tutorial en YouTube',
-                    style: TextStyle(
-                        fontSize: 10.0,
-                        color: Colors.white,
-                        fontFamily: 'Silkscreen'),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 5, 60, 0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Imagen de fondo
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Imagen de fondo
+                          CachedNetworkImage(
+                            imageUrl:
+                                'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
 
-                        // Degradado que ocupa la imagen
-                        Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black.withOpacity(0.8),
-                                  Colors.transparent,
-                                ],
+                          // Degradado que ocupa la imagen
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.99),
+                                    Colors.transparent,
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
 
-                        // Botón de reproducción
-                        InkWell(
-                          onTap: _launchYouTubeVideo,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(187, 130, 130, 130),
-                              shape: BoxShape.circle,
-                            ),
-                            padding: const EdgeInsets.all(16),
-                            child: const Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                              size: 40,
+                          // Botón de reproducción
+                          InkWell(
+                            onTap: _launchYouTubeVideo,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(187, 130, 130, 130),
+                                shape: BoxShape.circle,
+                              ),
+                              padding: const EdgeInsets.all(5),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 200,
-                  )
-                ],
+                    const SizedBox(
+                      height: 200,
+                    )
+                  ],
+                ),
               ),
+            )
+          ],
+        ),
+      ]),
+      bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
+          ? Container(
+              color: const Color.fromARGB(0, 55, 77, 56),
+              width: _anchoredAdaptiveAd!.size.width.toDouble(),
+              height: _anchoredAdaptiveAd!.size.height.toDouble(),
+              child: AdWidget(ad: _anchoredAdaptiveAd!),
+            )
+          : Container(
+              color: const Color.fromARGB(0, 55, 77, 56),
+              width: 320,
+              height: 50,
+              child: _isLoaded
+                  ? AdWidget(ad: _anchoredAdaptiveAd!)
+                  : const CircularProgressIndicator(
+                      color: Colors.transparent,
+                    ),
             ),
-          ),
-        ]));
+    );
   }
 
   void showAppInfo(BuildContext context) {

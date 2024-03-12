@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:robotreparadorpixeles/presentation/screens/select_fallo.dart';
 import 'package:robotreparadorpixeles/presentation/screens/select_pantalla.dart';
 import '../importaciones.dart';
 import 'widgets/animated_background.dart';
@@ -28,7 +29,7 @@ class LoadingScreen extends ConsumerWidget {
                   height: 40,
                 ),
                 Container(
-                  height: 200,
+                  height: 160,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 5,
                   ),
@@ -48,7 +49,7 @@ class LoadingScreen extends ConsumerWidget {
                     children: [
                       LinearPercentIndicator(
                         width: 250.0,
-                        lineHeight: 10,
+                        lineHeight: 7,
                         percent: 100 / 100,
                         animation: true,
                         animationDuration: 9000, // 7 sec para cargar la barra
@@ -56,9 +57,6 @@ class LoadingScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 2,
                 ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +108,6 @@ class LoadingScreen extends ConsumerWidget {
 
   void isLoaded(BuildContext context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const SelectPantalla()));
+        context, MaterialPageRoute(builder: (_) => const SelectFallo()));
   }
 }

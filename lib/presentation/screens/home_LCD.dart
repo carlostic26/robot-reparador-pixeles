@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../importaciones.dart';
 import 'widgets/animated_background.dart';
 
@@ -67,7 +68,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
   @override
   void initState() {
     // TODO: implement initState
-    //_loadAdaptativeAd();
+    _loadAdaptativeAd();
   }
 
   @override
@@ -89,314 +90,256 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        centerTitle: true,
-      ),
-      body: Stack(children: [
-        //AnimatedBackground(),
-        SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+        actions: [
+          Column(
             children: [
-              Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
-                    child: Center(
-                      child: Text("Tutorial",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Color.fromARGB(255, 63, 234, 69),
-                              fontFamily: 'Silkscreen')),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 120,
-                    width: 200,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          // Imagen de fondo
-                          CachedNetworkImage(
-                            imageUrl:
-                                'https://i.ytimg.com/vi/XosdL2MuUNk/maxresdefault.jpg',
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-
-                          // Degradado que ocupa la imagen
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                    Colors.black.withOpacity(0.8),
-                                    Colors.transparent,
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Botón de reproducción
-                          InkWell(
-                            onTap: _launchYouTubeVideo,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(187, 130, 130, 130),
-                                shape: BoxShape.circle,
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 20, 20, 1),
-                          child: Center(
-                            child: Text("Recuerde",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: Color.fromARGB(255, 63, 234, 69),
-                                    fontFamily: 'Silkscreen')),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
-                          child: Text(
-                              "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación durante al menos una semana.",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                  fontFamily: 'Silkscreen')),
-                        ),
-                      ],
-                    )
-                  ],
+              ElevatedButton(
+                onPressed: () async {
+                  if (await canLaunch('https://youtu.be/XosdL2MuUNk'))
+                    launch('https://youtu.be/XosdL2MuUNk');
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  disabledForegroundColor: Colors.transparent,
+                  disabledBackgroundColor: Colors.transparent,
+                ),
+                child: const FaIcon(
+                  FontAwesomeIcons.youtube,
+                  color: Colors.white,
+                  size: 20,
                 ),
               ),
-              const SizedBox(
-                height: 20,
+            ],
+          ),
+        ],
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
+                        child: Text(
+                            "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación durante al menos una semana.",
+                            style: TextStyle(
+                                fontSize: 10,
+                                color: Colors.white,
+                                fontFamily: 'Silkscreen')),
+                      ),
+                    ],
+                  )
+                ],
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: Text(
-                    "Recuerde configurar en su teléfono el tiempo activo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse para que la rapación no se interrumpa.",
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: Colors.blueGrey,
-                        fontFamily: 'Silkscreen')),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        const Text(
-                          '10 min',
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Text(
+                  "Recuerde configurar en su teléfono el tiempo activo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse para que la raparación no se interrumpa.",
+                  style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.blueGrey,
+                      fontFamily: 'Silkscreen')),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      const Text(
+                        '10 min',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Silkscreen',
+                            fontSize: 10),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.blueGrey,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 11,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    children: [
+                      const Text('20 min',
                           style: TextStyle(
                               color: Colors.white,
                               fontFamily: 'Silkscreen',
-                              fontSize: 10),
+                              fontSize: 10)),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.white,
+                          size: 40,
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.blueGrey,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 11,
-                                      )),
-                            );
-                          },
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 22,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    children: [
+                      const Text('40 min',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Silkscreen',
+                              fontSize: 10)),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.red,
+                          size: 40,
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text('20 min',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen',
-                                fontSize: 10)),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 22,
-                                      )),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text('40 min',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen',
-                                fontSize: 10)),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.red,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 45,
-                                      )),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 45,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 30,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    children: [
+                      const Text('1 hora',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Silkscreen',
+                              fontSize: 10)),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.amber,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 60,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    children: [
+                      const Text('3 horas',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Silkscreen',
+                              fontSize: 10)),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 180,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  Column(
+                    children: [
+                      const Text('6 horas',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Silkscreen',
+                              fontSize: 10)),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.build_circle,
+                          color: Colors.green,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ReparandoColorsLCD(
+                                      duration: 360,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        const Text('1 hora',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen',
-                                fontSize: 10)),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.amber,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 60,
-                                      )),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text('3 horas',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen',
-                                fontSize: 10)),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.blue,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 180,
-                                      )),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const Text('6 horas',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen',
-                                fontSize: 10)),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.build_circle,
-                            color: Colors.green,
-                            size: 40,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => ReparandoColorsLCD(
-                                        duration: 360,
-                                      )),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-      ]),
+      ),
 
       //adaptative banner bottom screen
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded

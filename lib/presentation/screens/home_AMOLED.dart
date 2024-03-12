@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:robotreparadorpixeles/presentation/screens/reparando_AMOLED.dart';
 import '../importaciones.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeAmoledScrenn extends StatefulWidget {
   const HomeAmoledScrenn({super.key});
@@ -67,7 +68,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
   @override
   void initState() {
     // TODO: implement initState
-    //_loadAdaptativeAd();
+    _loadAdaptativeAd();
   }
 
   @override
@@ -90,6 +91,29 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
             },
             color: Colors.white,
             icon: const Icon(Icons.arrow_back)),
+        actions: [
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  if (await canLaunch('https://youtu.be/XosdL2MuUNk'))
+                    launch('https://youtu.be/XosdL2MuUNk');
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  disabledForegroundColor: Colors.transparent,
+                  disabledBackgroundColor: Colors.transparent,
+                ),
+                child: const FaIcon(
+                  FontAwesomeIcons.youtube,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -97,90 +121,12 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 10, 1),
-                  child: Center(
-                    child: Text("Tutorial",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Color.fromARGB(255, 63, 234, 69),
-                            fontFamily: 'Silkscreen')),
-                  ),
-                ),
-                SizedBox(
-                  height: 120,
-                  width: 200,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        // Imagen de fondo
-                        CachedNetworkImage(
-                          imageUrl:
-                              'https://i.ytimg.com/vi/XosdL2MuUNk/maxresdefault.jpg',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-
-                        // Degradado que ocupa la imagen
-                        Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Colors.black.withOpacity(0.8),
-                                  Colors.transparent,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Botón de reproducción
-                        InkWell(
-                          onTap: _launchYouTubeVideo,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(187, 130, 130, 130),
-                              shape: BoxShape.circle,
-                            ),
-                            padding: const EdgeInsets.all(10),
-                            child: const Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
                   Column(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 1),
-                        child: Center(
-                          child: Text("Recuerde",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Color.fromARGB(255, 63, 234, 69),
-                                  fontFamily: 'Silkscreen')),
-                        ),
-                      ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
                         child: Text(
@@ -223,7 +169,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
               ),
             ),
             const SizedBox(
-              height: 30,
+              height: 100,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -250,7 +196,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) => ReparandoColorsAMOLED(
-                                      duration: 1,
+                                      duration: 11,
                                     )),
                           );
                         },
