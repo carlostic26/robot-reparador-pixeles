@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:robotreparadorpixeles/presentation/screens/home_AMOLED.dart';
 import 'package:robotreparadorpixeles/presentation/importaciones.dart';
+import 'package:robotreparadorpixeles/presentation/screens/widgets/animated_background.dart';
 
 class SelectPantalla extends StatefulWidget {
   const SelectPantalla({super.key});
@@ -116,175 +118,178 @@ class _SelectPantallaState extends State<SelectPantalla> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          'Elegir tipo de pantalla',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.0,
-          ),
-        ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            color: Colors.white,
-            icon: const Icon(Icons.arrow_back)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.info),
-              onPressed: () {
-                //dialog to go privacy politicies
-                showAppInfo(context);
-              },
-            ),
-          ),
-        ],
-      ),
       body: Stack(children: [
-        //AnimatedBackground(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            OutlinedButton(
-              onPressed: () {
-                GoLCD();
-                showInterstitialAd();
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.grey,
-                side: const BorderSide(color: Colors.grey, width: 2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-              ),
-              child: const Text('LCD (IPS,TFT)'),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            OutlinedButton(
-              onPressed: () {
-                GoAMOLED();
-                showInterstitialAd();
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.grey,
-                side: const BorderSide(color: Colors.grey, width: 2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-              ),
-              child: const Text('AMOLED'),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            OutlinedButton(
-              onPressed: () {
-                GoAMOLED();
-                showInterstitialAd();
-              },
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.grey,
-                side: const BorderSide(color: Colors.grey, width: 2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-              ),
-              child: const Text('OLED'),
-            ),
-            const SizedBox(
-              height: 80,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    const Text(
-                      '¿No sabes que pantalla tienes?',
-                      style: TextStyle(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 10.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Silkscreen'),
+        AnimatedBackground(),
+        SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AppBar(
+                centerTitle: true,
+                backgroundColor: const Color.fromARGB(30, 0, 0, 0),
+                title: const Text(
+                  'Elegir tipo de pantalla',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.0,
+                  ),
+                ),
+                leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: Colors.white,
+                    icon: const Icon(Icons.arrow_back)),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: IconButton(
+                      color: Colors.white,
+                      icon: const Icon(Icons.info),
+                      onPressed: () {
+                        //dialog to go privacy politicies
+                        showAppInfo(context);
+                      },
                     ),
-                    const Text(
-                      'Revisa el tutorial en YouTube',
-                      style: TextStyle(
-                          fontSize: 8.0,
-                          color: Colors.grey,
-                          fontFamily: 'Silkscreen'),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          // Imagen de fondo
-                          CachedNetworkImage(
-                            imageUrl:
-                                'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  GoLCD();
+                  showInterstitialAd();
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.grey, width: 2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                child: const Text('LCD (IPS,TFT)'),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  GoAMOLED();
+                  showInterstitialAd();
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.grey, width: 2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                child: const Text('AMOLED'),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  GoAMOLED();
+                  showInterstitialAd();
+                },
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  side: const BorderSide(color: Colors.grey, width: 2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                child: const Text('OLED'),
+              ),
+              const SizedBox(
+                height: 80,
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      const Text(
+                        '¿No sabes que pantalla tienes?',
+                        style: TextStyle(
+                            //fontWeight: FontWeight.bold,
+                            fontSize: 10.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Silkscreen'),
+                      ),
+                      const Text(
+                        'Revisa el tutorial en YouTube',
+                        style: TextStyle(
+                            fontSize: 8.0,
+                            color: Colors.grey,
+                            fontFamily: 'Silkscreen'),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Imagen de fondo
+                            CachedNetworkImage(
+                              imageUrl:
+                                  'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
 
-                          // Degradado que ocupa la imagen
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                    Colors.black.withOpacity(0.99),
-                                    Colors.transparent,
-                                  ],
+                            // Degradado que ocupa la imagen
+                            Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black.withOpacity(0.99),
+                                      Colors.transparent,
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          // Botón de reproducción
-                          InkWell(
-                            onTap: _launchYouTubeVideo,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(187, 130, 130, 130),
-                                shape: BoxShape.circle,
-                              ),
-                              padding: const EdgeInsets.all(5),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                                size: 30,
+                            // Botón de reproducción
+                            InkWell(
+                              onTap: _launchYouTubeVideo,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(187, 130, 130, 130),
+                                  shape: BoxShape.circle,
+                                ),
+                                padding: const EdgeInsets.all(5),
+                                child: const Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 200,
-                    )
-                  ],
+                      const SizedBox(
+                        height: 200,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ]),
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded

@@ -75,52 +75,60 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          'Reparador de Pantalla AMOLED',
-          style: TextStyle(
-            fontSize: 12.0,
-            /*fontWeight: FontWeight.bold*/
-            color: Colors.white,
-          ),
-        ),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            color: Colors.white,
-            icon: const Icon(Icons.arrow_back)),
-        actions: [
-          Column(
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  if (await canLaunch('https://youtu.be/XosdL2MuUNk'))
-                    launch('https://youtu.be/XosdL2MuUNk');
-                },
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  disabledForegroundColor: Colors.transparent,
-                  disabledBackgroundColor: Colors.transparent,
-                ),
-                child: const FaIcon(
-                  FontAwesomeIcons.youtube,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-        ],
-        centerTitle: true,
-      ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            AppBar(
+              backgroundColor: Colors.transparent,
+              title: const Text(
+                'Reparador de Pantalla AMOLED',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  /*fontWeight: FontWeight.bold*/
+                  color: Colors.white,
+                ),
+              ),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  color: Colors.white,
+                  icon: const Icon(Icons.arrow_back)),
+              actions: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (await canLaunch('https://youtu.be/XosdL2MuUNk')) {
+                          launch('https://youtu.be/XosdL2MuUNk');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        disabledForegroundColor: Colors.transparent,
+                        disabledBackgroundColor: Colors.transparent,
+                      ),
+                      child: const FaIcon(
+                        FontAwesomeIcons.youtube,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Tutorial',
+                        style: TextStyle(color: Colors.white, fontSize: 8),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              centerTitle: true,
+            ),
             const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -157,7 +165,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
               height: 30,
             ),
             Container(
-              height: 5,
+              height: 2,
               width: 2,
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -168,8 +176,98 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
                 ),
               ),
             ),
+
             const SizedBox(
-              height: 100,
+              height: 30,
+            ),
+            //video como confiigurar tiempo telefono
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  '¿No sabes como configurar el tiempo',
+                  style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 10.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Silkscreen'),
+                ),
+                const Text(
+                  'maximo de pantalla?',
+                  style: TextStyle(
+                      //fontWeight: FontWeight.bold,
+                      fontSize: 10.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Silkscreen'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  'Revisa el tutorial en YouTube',
+                  style: TextStyle(
+                      fontSize: 8.0,
+                      color: Colors.grey,
+                      fontFamily: 'Silkscreen'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl:
+                            'https://i.ytimg.com/vi/qNIgr-gLTw0/maxresdefault.jpg',
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.99),
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: _launchConfPantallaVideo,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(187, 130, 130, 130),
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(5),
+                          child: const Icon(
+                            Icons.play_arrow,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 10,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -383,6 +481,20 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
 
   void _launchYouTubeVideo() async {
     const url = 'https://youtu.be/XosdL2MuUNk';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Fluttertoast.showToast(
+        msg: "Busca en YouTube: TICnoticos reparar pantalla",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
+      throw 'No se pudo abrir el enlace: $url';
+    }
+  }
+
+  void _launchConfPantallaVideo() async {
+    const url = 'https://youtu.be/qNIgr-gLTw0';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

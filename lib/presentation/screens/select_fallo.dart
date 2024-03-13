@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:robotreparadorpixeles/presentation/screens/home_AMOLED.dart';
 import 'package:robotreparadorpixeles/presentation/importaciones.dart';
 import 'package:robotreparadorpixeles/presentation/screens/select_pantalla.dart';
+import 'package:robotreparadorpixeles/presentation/screens/widgets/animated_background.dart';
 
 class SelectFallo extends StatefulWidget {
   const SelectFallo({super.key});
@@ -65,38 +66,40 @@ class _SelectFalloState extends State<SelectFallo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          'Seleccionar falla',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 12.0, /*fontWeight: FontWeight.bold*/
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.info),
-              onPressed: () {
-                //dialog to go privacy politicies
-                showAppInfo(context);
-              },
-            ),
-          ),
-        ],
-      ),
       body: Stack(children: [
-        //AnimatedBackground(),
+        AnimatedBackground(),
         Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              AppBar(
+                centerTitle: true,
+                backgroundColor: const Color.fromARGB(30, 0, 0, 0),
+                title: const Text(
+                  'Seleccionar falla',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.0, /*fontWeight: FontWeight.bold*/
+                  ),
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: IconButton(
+                      color: Colors.white,
+                      icon: const Icon(Icons.info),
+                      onPressed: () {
+                        //dialog to go privacy politicies
+                        showAppInfo(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 100,
+              ),
               OutlinedButton(
                 onPressed: () {
                   Navigator.push(
@@ -105,7 +108,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -123,7 +126,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -141,7 +144,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -159,7 +162,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -177,7 +180,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
@@ -195,7 +198,7 @@ class _SelectFalloState extends State<SelectFallo> {
                           builder: (_) => const SelectPantalla()));
                 },
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey, width: 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),

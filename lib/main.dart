@@ -16,14 +16,12 @@ Future<void> loadAd() async {
       onAdLoaded: (ad) {
         print("ad is loaded ok");
         openAd = ad;
-        isAdLoaded =
-            true; // Actualiza isAdLoaded cuando el anuncio se ha cargado correctamente.
+        isAdLoaded = true;
         openAd!.show();
       },
       onAdFailedToLoad: (error) {
         print("ad dailed to load $error");
-        isAdLoaded =
-            false; // Actualiza isAdLoaded cuando el anuncio falla al cargar.
+        isAdLoaded = false;
       },
     ),
     orientation: AppOpenAd.orientationPortrait,
@@ -36,7 +34,6 @@ Future<void> main() async {
   MobileAds.instance.initialize();
   await MobileAds.instance.initialize();
   await loadAd();
-  cancelAds();
 
   runApp(const ProviderScope(child: MyApp()));
 }
