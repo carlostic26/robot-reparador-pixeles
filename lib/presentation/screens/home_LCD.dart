@@ -75,6 +75,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

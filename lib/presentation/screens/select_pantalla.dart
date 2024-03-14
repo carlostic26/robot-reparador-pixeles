@@ -116,6 +116,9 @@ class _SelectPantallaState extends State<SelectPantalla> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: Stack(children: [
@@ -123,7 +126,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
         SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            //mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AppBar(
@@ -156,8 +159,8 @@ class _SelectPantallaState extends State<SelectPantalla> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 100,
+              SizedBox(
+                height: height * 0.1,
               ),
               OutlinedButton(
                 onPressed: () {
@@ -172,8 +175,8 @@ class _SelectPantallaState extends State<SelectPantalla> {
                 ),
                 child: const Text('LCD (IPS,TFT)'),
               ),
-              const SizedBox(
-                height: 5,
+              SizedBox(
+                height: height * 0.01,
               ),
               OutlinedButton(
                 onPressed: () {
@@ -188,8 +191,8 @@ class _SelectPantallaState extends State<SelectPantalla> {
                 ),
                 child: const Text('AMOLED'),
               ),
-              const SizedBox(
-                height: 5,
+              SizedBox(
+                height: height * 0.01,
               ),
               OutlinedButton(
                 onPressed: () {
@@ -204,88 +207,86 @@ class _SelectPantallaState extends State<SelectPantalla> {
                 ),
                 child: const Text('OLED'),
               ),
-              const SizedBox(
-                height: 80,
+              SizedBox(
+                height: height * 0.08,
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      const Text(
-                        '¿No sabes que pantalla tienes?',
-                        style: TextStyle(
-                            //fontWeight: FontWeight.bold,
-                            fontSize: 10.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Silkscreen'),
-                      ),
-                      const Text(
-                        'Revisa el tutorial en YouTube',
-                        style: TextStyle(
-                            fontSize: 8.0,
-                            color: Colors.grey,
-                            fontFamily: 'Silkscreen'),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Imagen de fondo
-                            CachedNetworkImage(
-                              imageUrl:
-                                  'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
+                child: Column(
+                  children: [
+                    const Text(
+                      '¿No sabes que pantalla tienes?',
+                      style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 10.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Silkscreen'),
+                    ),
+                    const Text(
+                      'Revisa el tutorial en YouTube',
+                      style: TextStyle(
+                          fontSize: 8.0,
+                          color: Colors.grey,
+                          fontFamily: 'Silkscreen'),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Imagen de fondo
+                          CachedNetworkImage(
+                            imageUrl:
+                                'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
 
-                            // Degradado que ocupa la imagen
-                            Positioned.fill(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [
-                                      Colors.black.withOpacity(0.99),
-                                      Colors.transparent,
-                                    ],
-                                  ),
+                          // Degradado que ocupa la imagen
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.99),
+                                    Colors.transparent,
+                                  ],
                                 ),
                               ),
                             ),
+                          ),
 
-                            // Botón de reproducción
-                            InkWell(
-                              onTap: _launchYouTubeVideo,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(187, 130, 130, 130),
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                child: const Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
+                          // Botón de reproducción
+                          InkWell(
+                            onTap: _launchYouTubeVideo,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(187, 130, 130, 130),
+                                shape: BoxShape.circle,
+                              ),
+                              padding: const EdgeInsets.all(5),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 30,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 200,
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 200,
+                    )
+                  ],
                 ),
               )
             ],

@@ -77,7 +77,7 @@ class _SelectFalloState extends State<SelectFallo> {
                 centerTitle: true,
                 backgroundColor: const Color.fromARGB(30, 0, 0, 0),
                 title: const Text(
-                  'Seleccionar falla',
+                  'Selecciona el tipo de falla',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.0, /*fontWeight: FontWeight.bold*/
