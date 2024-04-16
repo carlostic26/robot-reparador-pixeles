@@ -30,10 +30,15 @@ Future<void> loadAd() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   MobileAds.instance.initialize();
   await MobileAds.instance.initialize();
   await loadAd();
+
+  Timer(const Duration(seconds: 10), () async {
+    if (!isAdLoaded) {
+      openAd?.dispose();
+    }
+  });
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -41,7 +46,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

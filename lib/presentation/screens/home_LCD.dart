@@ -137,7 +137,7 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
                         child: Text(
-                            "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación durante al menos una semana.",
+                            "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación 3 veces por semana.",
                             style: TextStyle(
                                 fontSize: 10,
                                 color: Colors.white,

@@ -412,39 +412,39 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
         builder: (BuildContext context) {
           return SimpleDialog(
               backgroundColor: Colors.white,
-              title: Column(
+              title: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "¡Listo!",
                       style: TextStyle(
                           color: Colors.green,
                           fontSize: 25.0,
                           fontFamily: 'Silkscreen'),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: Text(
-                          'Hemos mejorado tu pantalla. Será necesario volver a usar el robot. Vuelve en ${hours}h ${minutes}m ${seconds}s.\n\nPrueba tu pantalla y aumenta el tiempo de reparación si lo ves necesario.',
-                          style: const TextStyle(
+                          'Hemos mejorado tu pantalla. Será necesario volver a usar el robot. Debes volver más tarde para realizar otro tiempo de reparación.\n\nPrueba tu pantalla y aumenta el tiempo de reparación si lo ves necesario.',
+                          style: TextStyle(
                               color: Colors.black,
                               fontSize: 12.0,
                               fontFamily: 'Silkscreen'),
                         ),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10, // Espacio antes del nuevo mensaje
                     ),
                     Center(
                       child: Text(
                         '¿Puedes apoyarnos viendo un anuncio?',
-                        style: const TextStyle(
+                        style: TextStyle(
                             color: Colors.black,
                             fontSize: 14.0,
                             fontFamily: 'Silkscreen'),
@@ -458,7 +458,7 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll<Color>(
+                        backgroundColor: const MaterialStatePropertyAll<Color>(
                             Color.fromARGB(255, 4, 75, 1)),
                         shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
                           RoundedRectangleBorder(

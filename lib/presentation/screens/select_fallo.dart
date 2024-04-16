@@ -5,7 +5,7 @@ import 'package:robotreparadorpixeles/presentation/screens/select_pantalla.dart'
 import 'package:robotreparadorpixeles/presentation/screens/widgets/animated_background.dart';
 
 class SelectFallo extends StatefulWidget {
-  const SelectFallo({super.key});
+  const SelectFallo({Key? key}) : super(key: key);
 
   @override
   State<SelectFallo> createState() => _SelectFalloState();
@@ -15,6 +15,14 @@ class _SelectFalloState extends State<SelectFallo> {
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
+  List<bool> _checkboxValues = List.filled(
+      6, false); // Mantén un estado separado para cada casilla de verificación
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAdaptativeAd();
+  }
 
   @override
   void didChangeDependencies() {
@@ -58,20 +66,14 @@ class _SelectFalloState extends State<SelectFallo> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _loadAdaptativeAd();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        AnimatedBackground(),
-        Center(
-          child: Column(
+      body: Stack(
+        children: [
+          AnimatedBackground(),
+          Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AppBar(
                 centerTitle: true,
@@ -80,7 +82,7 @@ class _SelectFalloState extends State<SelectFallo> {
                   'Selecciona el tipo de falla',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12.0, /*fontWeight: FontWeight.bold*/
+                    fontSize: 12.0,
                   ),
                 ),
                 actions: [
@@ -100,117 +102,130 @@ class _SelectFalloState extends State<SelectFallo> {
               const SizedBox(
                 height: 100,
               ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      CheckboxListTile(
+                        title: const Text(
+                          'Pantalla fantasma',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            0], // Usar la primera variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[0] = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CheckboxListTile(
+                        title: const Text(
+                          'Pantalla loca',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            1], // Usar la segunda variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[1] = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CheckboxListTile(
+                        title: const Text(
+                          'Pantalla con lineas',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            2], // Usar la tercera variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[2] = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CheckboxListTile(
+                        title: const Text(
+                          'Pantalla Quemada',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            3], // Usar la cuarta variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[3] = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CheckboxListTile(
+                        title: const Text(
+                          'Pantalla opaca',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            4], // Usar la quinta variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[4] = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CheckboxListTile(
+                        title: const Text(
+                          'Otro',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        value: _checkboxValues[
+                            5], // Usar la sexta variable de estado
+                        onChanged: (value) {
+                          setState(() {
+                            _checkboxValues[5] = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                child: const Text('Pantalla Loca'),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Pantalla Fantasma'),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Pantalla con Lineas'),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Pantalla Opaca'),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Pantalla Quemada'),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SelectPantalla()));
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('Otro'),
               ),
             ],
           ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _isAnyCheckboxChecked()
+            ? () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const SelectPantalla()));
+              }
+            : null,
+        label: const Text(
+          'Continuar',
+          style: TextStyle(color: Colors.white),
         ),
-      ]),
-
-      //adaptative banner bottom screen
+        backgroundColor: Colors.grey, // Color del botón
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
               color: const Color.fromARGB(0, 55, 77, 56),
@@ -229,6 +244,11 @@ class _SelectFalloState extends State<SelectFallo> {
                     ),
             ),
     );
+  }
+
+  // Método para verificar si al menos una casilla de verificación está marcada
+  bool _isAnyCheckboxChecked() {
+    return _checkboxValues.any((element) => element);
   }
 
   void showAppInfo(BuildContext context) {
