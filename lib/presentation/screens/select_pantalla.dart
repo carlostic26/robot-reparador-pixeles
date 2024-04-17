@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:robotreparadorpixeles/presentation/screens/home_AMOLED.dart';
 import 'package:robotreparadorpixeles/presentation/importaciones.dart';
+import 'package:robotreparadorpixeles/presentation/screens/home_OLED.dart';
+import 'package:robotreparadorpixeles/presentation/screens/select_fallo.dart';
 import 'package:robotreparadorpixeles/presentation/screens/widgets/animated_background.dart';
+import 'package:robotreparadorpixeles/presentation/screens/widgets/checkBox.dart';
 
 class SelectPantalla extends StatefulWidget {
   const SelectPantalla({super.key});
@@ -14,6 +16,14 @@ class SelectPantalla extends StatefulWidget {
 const int maxAttempts = 3;
 
 class _SelectPantallaState extends State<SelectPantalla> {
+  bool _isLCDSelected = false;
+  bool _isAMOLEDSelected = false;
+  bool _isOLEDSelected = false;
+  bool _isContinueEnabled = false;
+
+  final List<bool> _checkboxValues = List.filled(
+      6, false); // Mantén un estado separado para cada casilla de verificación
+
   Ads ads = Ads();
 
   //initializing intersticial ad
@@ -117,182 +127,210 @@ class _SelectPantallaState extends State<SelectPantalla> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      body: Stack(children: [
-        AnimatedBackground(),
-        SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AppBar(
-                centerTitle: true,
-                backgroundColor: const Color.fromARGB(30, 0, 0, 0),
-                title: const Text(
-                  'Elegir tipo de pantalla',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
+      body: Stack(
+        children: [
+          AnimatedBackground(),
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AppBar(
+                  centerTitle: true,
+                  backgroundColor: const Color.fromARGB(30, 0, 0, 0),
+                  title: const Text(
+                    'Tipo de pantalla',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12.0,
+                    ),
                   ),
-                ),
-                leading: IconButton(
+                  leading: IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const SelectFallo()),
+                      );
                     },
                     color: Colors.white,
-                    icon: const Icon(Icons.arrow_back)),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: IconButton(
-                      color: Colors.white,
-                      icon: const Icon(Icons.info),
-                      onPressed: () {
-                        //dialog to go privacy politicies
-                        showAppInfo(context);
-                      },
-                    ),
+                    icon: const Icon(Icons.arrow_back),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: height * 0.1,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  GoLCD();
-                  showInterstitialAd();
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('LCD (IPS,TFT)'),
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  GoAMOLED();
-                  showInterstitialAd();
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('AMOLED'),
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  GoAMOLED();
-                  showInterstitialAd();
-                },
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.grey, width: 2),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                child: const Text('OLED'),
-              ),
-              SizedBox(
-                height: height * 0.08,
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  children: [
-                    const Text(
-                      '¿No sabes que pantalla tienes?',
-                      style: TextStyle(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 10.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Silkscreen'),
-                    ),
-                    const Text(
-                      'Revisa el tutorial en YouTube',
-                      style: TextStyle(
-                          fontSize: 8.0,
-                          color: Colors.grey,
-                          fontFamily: 'Silkscreen'),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                  actions: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          // Imagen de fondo
-                          CachedNetworkImage(
-                            imageUrl:
-                                'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-
-                          // Degradado que ocupa la imagen
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                    Colors.black.withOpacity(0.99),
-                                    Colors.transparent,
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          // Botón de reproducción
-                          InkWell(
-                            onTap: _launchYouTubeVideo,
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: Color.fromARGB(187, 130, 130, 130),
-                                shape: BoxShape.circle,
-                              ),
-                              padding: const EdgeInsets.all(5),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.all(10),
+                      child: IconButton(
+                        color: Colors.white,
+                        icon: const Icon(Icons.info),
+                        onPressed: () {
+                          showAppInfo(context);
+                        },
                       ),
                     ),
-                    const SizedBox(
-                      height: 200,
-                    )
                   ],
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(25.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(color: Colors.grey, width: 2),
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: height * 0.1),
+                        MyCheckBox(
+                          text: 'LCD (IPS,TFT)',
+                          onPressed: (isChecked) {
+                            setState(() {
+                              _isLCDSelected = isChecked;
+                              _isContinueEnabled = _isLCDSelected ||
+                                  _isAMOLEDSelected ||
+                                  _isOLEDSelected;
+                            });
+                          },
+                        ),
+                        SizedBox(height: height * 0.01),
+                        MyCheckBox(
+                          text: 'AMOLED',
+                          onPressed: (isChecked) {
+                            setState(() {
+                              _isAMOLEDSelected = isChecked;
+                              _isContinueEnabled = _isLCDSelected ||
+                                  _isAMOLEDSelected ||
+                                  _isOLEDSelected;
+                            });
+                          },
+                        ),
+                        SizedBox(height: height * 0.01),
+                        MyCheckBox(
+                          text: 'OLED',
+                          onPressed: (isChecked) {
+                            setState(() {
+                              _isOLEDSelected = isChecked;
+                              _isContinueEnabled = _isLCDSelected ||
+                                  _isAMOLEDSelected ||
+                                  _isOLEDSelected;
+                            });
+                          },
+                        ),
+                        SizedBox(height: height * 0.05),
+                      ],
+                    ),
+                  ),
+                ),
+                const Divider(),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(color: Colors.grey, width: 2),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        const Text(
+                          '¿No sabes que pantalla tienes?',
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Silkscreen',
+                          ),
+                        ),
+                        const Text(
+                          'Revisa tutorial en YouTube',
+                          style: TextStyle(
+                            fontSize: 9.0,
+                            color: Colors.grey,
+                            fontFamily: 'Silkscreen',
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl:
+                                    'https://i.ytimg.com/vi/HPIl4K2VRbQ/maxresdefault.jpg',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        Colors.black.withOpacity(0.99),
+                                        Colors.transparent,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: _launchYouTubeVideo,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(187, 130, 130, 130),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(5),
+                                  child: const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _isContinueEnabled
+            ? () {
+                if (_isLCDSelected) {
+                  GoLCD();
+                } else if (_isAMOLEDSelected) {
+                  GoAMOLED();
+                } else if (_isOLEDSelected) {
+                  GoOLED();
+                }
+                showInterstitialAd();
+              }
+            : null,
+        label: Text(
+          'Continuar',
+          style: TextStyle(
+              color: _isContinueEnabled ? Colors.white : Colors.black54),
         ),
-      ]),
+        backgroundColor:
+            _isContinueEnabled ? Colors.grey : Colors.grey.withOpacity(0.5),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
               color: const Color.fromARGB(0, 55, 77, 56),
@@ -300,16 +338,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
-          : Container(
-              color: const Color.fromARGB(0, 55, 77, 56),
-              width: 320,
-              height: 50,
-              child: _isLoaded
-                  ? AdWidget(ad: _anchoredAdaptiveAd!)
-                  : const CircularProgressIndicator(
-                      color: Colors.transparent,
-                    ),
-            ),
+          : Container(),
     );
   }
 
@@ -425,5 +454,10 @@ class _SelectPantallaState extends State<SelectPantalla> {
   void GoAMOLED() {
     Navigator.push(
         context, MaterialPageRoute(builder: (_) => const HomeAmoledScrenn()));
+  }
+
+  void GoOLED() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const HomeOledScrenn()));
   }
 }

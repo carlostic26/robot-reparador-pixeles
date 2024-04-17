@@ -12,9 +12,12 @@ class SelectFallo extends StatefulWidget {
 }
 
 class _SelectFalloState extends State<SelectFallo> {
+  bool _isContinueEnabled = false;
+
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
+
   List<bool> _checkboxValues = List.filled(
       6, false); // Mantén un estado separado para cada casilla de verificación
 
@@ -79,7 +82,7 @@ class _SelectFalloState extends State<SelectFallo> {
                 centerTitle: true,
                 backgroundColor: const Color.fromARGB(30, 0, 0, 0),
                 title: const Text(
-                  'Selecciona el tipo de falla',
+                  'Seleccionar tipos de falla',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.0,
@@ -103,24 +106,27 @@ class _SelectFalloState extends State<SelectFallo> {
                 height: 100,
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(30.0),
                 child: Container(
+                  padding: const EdgeInsets.all(25.0),
                   decoration: BoxDecoration(
-                    color: Colors.black26,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.grey, width: 2),
                   ),
                   child: Column(
                     children: [
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Pantalla fantasma',
                           style: TextStyle(color: Colors.white),
                         ),
-                        value: _checkboxValues[
-                            0], // Usar la primera variable de estado
+                        value: _checkboxValues[0],
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[0] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -128,6 +134,8 @@ class _SelectFalloState extends State<SelectFallo> {
                         height: 15,
                       ),
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Pantalla loca',
                           style: TextStyle(color: Colors.white),
@@ -137,6 +145,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[1] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -144,6 +153,8 @@ class _SelectFalloState extends State<SelectFallo> {
                         height: 15,
                       ),
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Pantalla con lineas',
                           style: TextStyle(color: Colors.white),
@@ -153,6 +164,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[2] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -160,6 +172,8 @@ class _SelectFalloState extends State<SelectFallo> {
                         height: 15,
                       ),
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Pantalla Quemada',
                           style: TextStyle(color: Colors.white),
@@ -169,6 +183,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[3] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -176,6 +191,8 @@ class _SelectFalloState extends State<SelectFallo> {
                         height: 15,
                       ),
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Pantalla opaca',
                           style: TextStyle(color: Colors.white),
@@ -185,6 +202,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[4] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -192,6 +210,8 @@ class _SelectFalloState extends State<SelectFallo> {
                         height: 15,
                       ),
                       CheckboxListTile(
+                        activeColor: Colors.grey,
+                        checkColor: Colors.white,
                         title: const Text(
                           'Otro',
                           style: TextStyle(color: Colors.white),
@@ -201,6 +221,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         onChanged: (value) {
                           setState(() {
                             _checkboxValues[5] = value!;
+                            _isContinueEnabled = true;
                           });
                         },
                       ),
@@ -219,11 +240,13 @@ class _SelectFalloState extends State<SelectFallo> {
                     MaterialPageRoute(builder: (_) => const SelectPantalla()));
               }
             : null,
-        label: const Text(
+        label: Text(
           'Continuar',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+              color: _isContinueEnabled ? Colors.white : Colors.black54),
         ),
-        backgroundColor: Colors.grey, // Color del botón
+        backgroundColor:
+            _isContinueEnabled ? Colors.grey : Colors.grey.withOpacity(0.5),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded

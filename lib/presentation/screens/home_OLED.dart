@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:robotreparadorpixeles/presentation/importaciones.dart';
 import 'package:robotreparadorpixeles/presentation/screens/reparando_AMOLED.dart';
-import '../importaciones.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomeAmoledScrenn extends StatefulWidget {
-  const HomeAmoledScrenn({super.key});
+class HomeOledScrenn extends StatefulWidget {
+  const HomeOledScrenn({super.key});
 
   @override
-  State<HomeAmoledScrenn> createState() => _HomeAmoledScrennState();
+  State<HomeOledScrenn> createState() => _HomeAmoledScrennState();
 }
 
 const int maxAttempts = 3;
 
-class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
+class _HomeAmoledScrennState extends State<HomeOledScrenn> {
   //ads
   BannerAd? _anchoredAdaptiveAd;
   bool _isLoaded = false;
@@ -84,7 +84,7 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
             AppBar(
               backgroundColor: Colors.transparent,
               title: const Text(
-                'Pantalla AMOLED',
+                'Pantalla OLED',
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.bold,

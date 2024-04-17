@@ -49,7 +49,7 @@ class LoadingScreen extends ConsumerWidget {
                     children: [
                       LinearPercentIndicator(
                         width: 250.0,
-                        lineHeight: 7,
+                        lineHeight: 5,
                         percent: 100 / 100,
                         animation: true,
                         animationDuration: 9000, // 7 sec para cargar la barra
