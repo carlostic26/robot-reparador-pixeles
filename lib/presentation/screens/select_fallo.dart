@@ -120,7 +120,7 @@ class _SelectFalloState extends State<SelectFallo> {
                         checkColor: Colors.white,
                         title: const Text(
                           'Pantalla fantasma',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[0],
                         onChanged: (value) {
@@ -130,15 +130,12 @@ class _SelectFalloState extends State<SelectFallo> {
                           });
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CheckboxListTile(
                         activeColor: Colors.grey,
                         checkColor: Colors.white,
                         title: const Text(
                           'Pantalla loca',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[
                             1], // Usar la segunda variable de estado
@@ -149,15 +146,12 @@ class _SelectFalloState extends State<SelectFallo> {
                           });
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CheckboxListTile(
                         activeColor: Colors.grey,
                         checkColor: Colors.white,
                         title: const Text(
                           'Pantalla con lineas',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[
                             2], // Usar la tercera variable de estado
@@ -168,15 +162,12 @@ class _SelectFalloState extends State<SelectFallo> {
                           });
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CheckboxListTile(
                         activeColor: Colors.grey,
                         checkColor: Colors.white,
                         title: const Text(
                           'Pantalla Quemada',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[
                             3], // Usar la cuarta variable de estado
@@ -187,15 +178,12 @@ class _SelectFalloState extends State<SelectFallo> {
                           });
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CheckboxListTile(
                         activeColor: Colors.grey,
                         checkColor: Colors.white,
                         title: const Text(
                           'Pantalla opaca',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[
                             4], // Usar la quinta variable de estado
@@ -206,15 +194,12 @@ class _SelectFalloState extends State<SelectFallo> {
                           });
                         },
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
                       CheckboxListTile(
                         activeColor: Colors.grey,
                         checkColor: Colors.white,
                         title: const Text(
                           'Otro',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                         value: _checkboxValues[
                             5], // Usar la sexta variable de estado

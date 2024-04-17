@@ -142,22 +142,21 @@ class _SelectPantallaState extends State<SelectPantalla> {
                   centerTitle: true,
                   backgroundColor: const Color.fromARGB(30, 0, 0, 0),
                   title: const Text(
-                    'Tipo de pantalla',
+                    'Seleccionar pantalla',
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 12.0,
                     ),
                   ),
                   leading: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const SelectFallo()),
-                      );
-                    },
                     color: Colors.white,
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SelectFallo()));
+                    },
                   ),
                   actions: [
                     Padding(
@@ -166,6 +165,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                         color: Colors.white,
                         icon: const Icon(Icons.info),
                         onPressed: () {
+                          //dialog to go privacy politicies
                           showAppInfo(context);
                         },
                       ),
@@ -184,13 +184,11 @@ class _SelectPantallaState extends State<SelectPantalla> {
                       children: [
                         SizedBox(height: height * 0.1),
                         MyCheckBox(
-                          text: 'LCD (IPS,TFT)',
+                          text: 'LCD (IPS, TFT)',
                           onPressed: (isChecked) {
                             setState(() {
                               _isLCDSelected = isChecked;
-                              _isContinueEnabled = _isLCDSelected ||
-                                  _isAMOLEDSelected ||
-                                  _isOLEDSelected;
+                              _isContinueEnabled = true;
                             });
                           },
                         ),
@@ -200,9 +198,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                           onPressed: (isChecked) {
                             setState(() {
                               _isAMOLEDSelected = isChecked;
-                              _isContinueEnabled = _isLCDSelected ||
-                                  _isAMOLEDSelected ||
-                                  _isOLEDSelected;
+                              _isContinueEnabled = true;
                             });
                           },
                         ),
@@ -212,9 +208,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                           onPressed: (isChecked) {
                             setState(() {
                               _isOLEDSelected = isChecked;
-                              _isContinueEnabled = _isLCDSelected ||
-                                  _isAMOLEDSelected ||
-                                  _isOLEDSelected;
+                              _isContinueEnabled = true;
                             });
                           },
                         ),
@@ -223,8 +217,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
                     ),
                   ),
                 ),
-                const Divider(),
-                const SizedBox(height: 10),
+                //const Divider(),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Container(

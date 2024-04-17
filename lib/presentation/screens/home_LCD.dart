@@ -24,7 +24,6 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
   }
 
   Future<void> _loadAdaptativeAd() async {
-    // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
     final AnchoredAdaptiveBannerAdSize? size =
         await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
             MediaQuery.of(context).size.width.truncate());
@@ -41,7 +40,6 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
     Ads ads = Ads();
 
     _anchoredAdaptiveAd = BannerAd(
-      // TODO: replace these test ad units with your own ad unit.
       adUnitId: ads.banner,
       size: size,
       request: const AdRequest(),
@@ -74,378 +72,494 @@ class _HomeLcdScrennState extends State<HomeLcdScrenn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Pantalla LCD',
+          style: TextStyle(
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: Colors.white,
+            icon: const Icon(Icons.arrow_back_ios)),
+        actions: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  if (await canLaunch('https://youtu.be/XosdL2MuUNk')) {
+                    launch('https://youtu.be/XosdL2MuUNk');
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  disabledForegroundColor: Colors.transparent,
+                  disabledBackgroundColor: Colors.transparent,
+                ),
+                child: const FaIcon(
+                  FontAwesomeIcons.youtube,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  'Tutorial',
+                  style: TextStyle(color: Colors.white, fontSize: 8),
+                ),
+              ),
+            ],
+          ),
+        ],
+        centerTitle: true,
+      ),
+
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppBar(
-              backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
-              title: const Text(
-                'Pantalla LCD',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12.0,
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20, 10, 25, 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey, width: 2),
                 ),
-              ),
-              leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              actions: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: const Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (await canLaunch('https://youtu.be/XosdL2MuUNk')) {
-                          launch('https://youtu.be/XosdL2MuUNk');
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        disabledForegroundColor: Colors.transparent,
-                        disabledBackgroundColor: Colors.transparent,
-                      ),
-                      child: const FaIcon(
-                        FontAwesomeIcons.youtube,
+                    Text(
+                      'Recuerde',
+                      style: TextStyle(
+                        fontSize: 10.0,
                         color: Colors.white,
-                        size: 20,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Silkscreen',
                       ),
                     ),
-                    const Expanded(
-                      child: Text(
-                        'Tutorial',
-                        style: TextStyle(color: Colors.white, fontSize: 8),
-                      ),
+                    SizedBox(height: 15),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "1. Ajustar tiempo de pantalla en el máximo posible.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "2. Ajustar brillo inferior al 60%",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "3. Verificar que la pantalla no esté levantada.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "4. Verificar que la pantalla no esté mojada.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "5. No usar el telefono mientras esté cargando.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "6. Usar tiempos necesarios según el daño.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                              Text(
+                                "7. Repetir reparación 3 veces por semana.",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-              centerTitle: true,
-            ),
-            const SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 30, 10),
-                        child: Text(
-                            "1. Ajustar tiempo de pantalla en el máximo posible.\n2. Ajustar brillo inferior al 60%\n3. Verificar que la pantalla no esté levantada.\n4. Verificar que la pantalla no esté mojada.\n5. No usar el telefono mientras esté cargando.\n6. Usar tiempos necesarios según el daño.\n7. Repetir reparación 3 veces por semana.",
-                            style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
-                                fontFamily: 'Silkscreen')),
-                      ),
-                    ],
-                  )
-                ],
               ),
             ),
+            Container(
+              height: 1,
+              width: 1,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                    "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh8al0JP35hhHlRLD8ybqf0Z0bDZP8lqiUVhBtVkklLAZM6si8ibtL2KMecBu1Vjq9_oLThyK5YovWvH2g0my1D5Z6GlunmGWJ1qIaKxe8zFIxFkrhSll8sdvbX9YmlzDwoZD8Pb06Wmvi3U5clvDjjL_9LdW4XhRbFhIV2MtT2kM3hTuWpxzxuD-BK/s16000/reparar%20AMOLED.gif",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            //const Divider(),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: Text(
-                  "Recuerde configurar el tiempo activo de su pantalla en el máximo posible.\n\nSu pantalla no deberá apagarse para que la raparación no se interrumpa.",
-                  style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.blueGrey,
-                      fontFamily: 'Silkscreen')),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(25, 10, 25, 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey, width: 2),
+                ),
+                child: Column(
                   children: [
                     const Text(
-                      '10 min',
+                      'Tiempos',
                       style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 10.0,
                           color: Colors.white,
-                          fontFamily: 'Silkscreen',
-                          fontSize: 10),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Silkscreen'),
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.blueGrey,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 11,
-                                  )),
-                        );
-                      },
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.blueGrey,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 11,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text(
+                              '10 min',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Silkscreen',
+                                  fontSize: 10),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.white,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 22,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text('20 min',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Silkscreen',
+                                    fontSize: 10)),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 45,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text('40 min',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Silkscreen',
+                                    fontSize: 10)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.amber,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 60,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text('1 hora',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Silkscreen',
+                                    fontSize: 10)),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.blue,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 180,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text('3 horas',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Silkscreen',
+                                    fontSize: 10)),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.build_circle,
+                                color: Colors.green,
+                                size: 40,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ReparandoColorsLCD(
+                                            duration: 360,
+                                          )),
+                                );
+                              },
+                            ),
+                            const Text('5 horas',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Silkscreen',
+                                    fontSize: 10)),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Column(
-                  children: [
-                    const Text('20 min',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10)),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 22,
-                                  )),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Column(
-                  children: [
-                    const Text('40 min',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10)),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 45,
-                                  )),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
+            //const Divider(),
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(20, 10, 25, 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey, width: 2),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('1 hora',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10)),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.amber,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 60,
-                                  )),
-                        );
-                      },
+                    const Text(
+                      textAlign: TextAlign.center,
+                      '¿No sabes configurar el tiempo maximo de pantalla?',
+                      style: TextStyle(
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 10.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Silkscreen'),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Column(
-                  children: [
-                    const Text('3 horas',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10)),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.blue,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 180,
-                                  )),
-                        );
-                      },
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                Column(
-                  children: [
-                    const Text('6 horas',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10)),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.build_circle,
-                        color: Colors.green,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ReparandoColorsLCD(
-                                    duration: 360,
-                                  )),
-                        );
-                      },
+                    const Text(
+                      'Revisa el tutorial en YouTube',
+                      style: TextStyle(
+                          fontSize: 8.0,
+                          color: Colors.grey,
+                          fontFamily: 'Silkscreen'),
                     ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  '¿No sabes como configurar el tiempo',
-                  style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 10.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Silkscreen'),
-                ),
-                const Text(
-                  'maximo de pantalla?',
-                  style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 10.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Silkscreen'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  'Revisa el tutorial en YouTube',
-                  style: TextStyle(
-                      fontSize: 8.0,
-                      color: Colors.grey,
-                      fontFamily: 'Silkscreen'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(100, 5, 100, 0),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CachedNetworkImage(
-                        imageUrl:
-                            'https://i.ytimg.com/vi/qNIgr-gLTw0/maxresdefault.jpg',
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                Colors.black.withOpacity(0.99),
-                                Colors.transparent,
-                              ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl:
+                                'https://i.ytimg.com/vi/qNIgr-gLTw0/maxresdefault.jpg',
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.black.withOpacity(0.99),
+                                    Colors.transparent,
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: _launchConfPantallaVideo,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(187, 130, 130, 130),
-                            shape: BoxShape.circle,
+                          InkWell(
+                            onTap: _launchConfPantallaVideo,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(187, 130, 130, 130),
+                                shape: BoxShape.circle,
+                              ),
+                              padding: const EdgeInsets.all(5),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ),
                           ),
-                          padding: const EdgeInsets.all(5),
-                          child: const Icon(
-                            Icons.play_arrow,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                )
-              ],
+              ),
             ),
           ],
         ),
       ),
 
-      //adaptative banner bottom screen
+//adaptative banner bottom screen
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
-              color: const Color.fromARGB(0, 55, 77, 56),
+              color: Colors.transparent,
               width: _anchoredAdaptiveAd!.size.width.toDouble(),
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
           : Container(
-              color: const Color.fromARGB(0, 55, 77, 56),
+              color: Colors.transparent,
               width:
                   320, // Establece un ancho predeterminado cuando el anuncio no está cargado
               height:
