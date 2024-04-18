@@ -12,8 +12,7 @@ class LoadingScreen extends ConsumerWidget {
 
     // Inicializa el estado del botón después de un retraso
     Future.delayed(const Duration(seconds: 9), () {
-      ref.read(buttonEnabled_rp.notifier).state =
-          true; // Habilita el botón después de 7 segundos
+      ref.read(buttonEnabled_rp.notifier).state = true;
     });
 
     return Scaffold(

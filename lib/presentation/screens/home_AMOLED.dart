@@ -557,27 +557,15 @@ class _HomeAmoledScrennState extends State<HomeAmoledScrenn> {
         ),
       ),
 
-//adaptative banner bottom screen
+      //adaptative banner bottom screen
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
-              color: Colors.transparent,
+              color: const Color.fromARGB(0, 55, 77, 56),
               width: _anchoredAdaptiveAd!.size.width.toDouble(),
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
-          : Container(
-              color: Colors.transparent,
-              width:
-                  320, // Establece un ancho predeterminado cuando el anuncio no está cargado
-              height:
-                  50, // Establece un alto predeterminado cuando el anuncio no está cargado
-              child: _isLoaded
-                  ? AdWidget(
-                      ad: _anchoredAdaptiveAd!) // Muestra el anuncio cuando está cargado
-                  : const CircularProgressIndicator(
-                      color: Colors.transparent,
-                    ),
-            ),
+          : const SizedBox.shrink(),
     );
   }
 

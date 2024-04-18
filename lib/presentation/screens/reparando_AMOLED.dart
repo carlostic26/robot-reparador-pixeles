@@ -403,10 +403,6 @@ class _ReparandoColorsAMOLEDState extends State<ReparandoColorsAMOLED> {
   void showDialogFinished(BuildContext context) {
     startTimerRetro();
 
-    int hours = _start ~/ 3600;
-    int minutes = (_start % 3600) ~/ 60;
-    int seconds = _start % 60;
-
     showDialog(
         context: context,
         builder: (BuildContext context) {

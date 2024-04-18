@@ -76,6 +76,10 @@ class _SelectPantallaState extends State<SelectPantalla> {
   void initState() {
     super.initState();
     createInterstitialAd();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAdaptativeAd();
+    });
   }
 
   @override
@@ -324,6 +328,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
             _isContinueEnabled ? Colors.grey : Colors.grey.withOpacity(0.5),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      //adaptative banner bottom screen
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
               color: const Color.fromARGB(0, 55, 77, 56),
@@ -331,7 +336,7 @@ class _SelectPantallaState extends State<SelectPantalla> {
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
-          : Container(),
+          : const SizedBox.shrink(),
     );
   }
 

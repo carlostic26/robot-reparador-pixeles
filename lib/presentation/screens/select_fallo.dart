@@ -24,7 +24,9 @@ class _SelectFalloState extends State<SelectFallo> {
   @override
   void initState() {
     super.initState();
-    _loadAdaptativeAd();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAdaptativeAd();
+    });
   }
 
   @override
@@ -56,12 +58,16 @@ class _SelectFalloState extends State<SelectFallo> {
           print('$ad loaded: ${ad.responseInfo}');
           setState(() {
             _anchoredAdaptiveAd = ad as BannerAd;
-            _isLoaded = true;
+            _isLoaded =
+                true; // Cambiar a true cuando el anuncio se carga correctamente
           });
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           print('Anchored adaptive banner failedToLoad: $error');
           ad.dispose();
+          setState(() {
+            _isLoaded = false; // Cambiar a false si el anuncio falla al cargar
+          });
         },
       ),
     );
@@ -234,6 +240,8 @@ class _SelectFalloState extends State<SelectFallo> {
             _isContinueEnabled ? Colors.grey : Colors.grey.withOpacity(0.5),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
+      //adaptative banner bottom screen
       bottomNavigationBar: _anchoredAdaptiveAd != null && _isLoaded
           ? Container(
               color: const Color.fromARGB(0, 55, 77, 56),
@@ -241,16 +249,7 @@ class _SelectFalloState extends State<SelectFallo> {
               height: _anchoredAdaptiveAd!.size.height.toDouble(),
               child: AdWidget(ad: _anchoredAdaptiveAd!),
             )
-          : Container(
-              color: const Color.fromARGB(0, 55, 77, 56),
-              width: 320,
-              height: 50,
-              child: _isLoaded
-                  ? AdWidget(ad: _anchoredAdaptiveAd!)
-                  : const CircularProgressIndicator(
-                      color: Colors.transparent,
-                    ),
-            ),
+          : const SizedBox.shrink(),
     );
   }
 
